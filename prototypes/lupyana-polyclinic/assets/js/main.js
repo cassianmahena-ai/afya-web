@@ -410,13 +410,14 @@
     $$('[data-link="phone"]').forEach((element) => {
       const value = content.clinic.phone;
       const usable = !isPlaceholder(value) && digits(value).length >= 6;
-      setLink(element, `tel:${String(value).replace(/[^\d+]/g, "")}`, usable);
+      const number = String(value).replace(/[^\d+]/g, "").replace(/^0/, "+255");
+      setLink(element, `tel:${number}`, usable);
     });
 
     $$('[data-link="whatsapp"]').forEach((element) => {
       const value = content.clinic.whatsapp;
       const message = element.dataset.waMessage ? t(element.dataset.waMessage) : "";
-      const number = digits(value);
+      const number = digits(value).replace(/^0/, "255");
       const usable = !isPlaceholder(value) && number.length >= 8;
       setLink(
         element,
