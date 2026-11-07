@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Contact and Location | Lupyana Polyclinic</title>
-  <meta name="description" content="Contact Lupyana Polyclinic in [WARD], [DISTRICT], [REGION]. Phone, WhatsApp, email, opening hours, map and directions.">
+  <meta name="description" content="Contact Lupyana Polyclinic in Vwawa, Mbozi, Songwe. Phone, WhatsApp, email, opening hours, map and directions.">
   <link rel="canonical" href="[SITE_URL]/contact.html">
   <meta name="theme-color" content="#0B5D5A">
   <meta name="robots" content="index, follow">
@@ -28,7 +28,10 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600..700&family=Onest:wght@400;500;600&display=swap" rel="stylesheet">
+  <script>if (matchMedia('(prefers-reduced-motion: no-preference)').matches && CSS.supports('animation-timeline: view()')) document.documentElement.setAttribute('data-8b-live','');</script>
   <link rel="stylesheet" href="assets/css/styles.css">
+  <link rel="stylesheet" href="assets/css/motion.css">
+  <link rel="stylesheet" href="assets/css/liquid-glass.css">
   <script>document.documentElement.classList.add('js');</script>
 
   <script type="application/ld+json">
@@ -62,7 +65,7 @@
         <li><a href="appointment.html">Book / Enquire</a></li>
         <li><a href="privacy.html">Privacy &amp; Terms</a></li>
       </ul>
-      <p>Call [CLINIC_PHONE] or WhatsApp [WHATSAPP_NUMBER].</p>
+      <p>Call 0726 498 771 or WhatsApp 0743 879 805.</p>
     </div>
   </noscript>
 
@@ -89,14 +92,14 @@
               <span class="contact-list__icon"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-phone"></use></svg></span>
               <div>
                 <p class="contact-list__label" data-i18n="common.phone">Phone</p>
-                <p class="contact-list__value"><a data-link="phone" href="#"><span data-bind="clinic.phone">[CLINIC_PHONE]</span></a></p>
+                <p class="contact-list__value"><a data-link="phone" href="#"><span data-bind="clinic.phone">0726 498 771</span></a></p>
               </div>
             </li>
             <li>
               <span class="contact-list__icon"><svg class="icon icon--fill" aria-hidden="true" focusable="false"><use href="#i-whatsapp"></use></svg></span>
               <div>
                 <p class="contact-list__label" data-i18n="common.whatsapp">WhatsApp</p>
-                <p class="contact-list__value"><a data-link="whatsapp" data-wa-message="contact.whatsapp.message" href="#"><span data-bind="clinic.whatsapp">[WHATSAPP_NUMBER]</span></a></p>
+                <p class="contact-list__value"><a data-link="whatsapp" data-wa-message="contact.whatsapp.message" href="#"><span data-bind="clinic.whatsapp">0743 879 805</span></a></p>
               </div>
             </li>
             <li>
@@ -110,21 +113,28 @@
               <span class="contact-list__icon"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-map-pin"></use></svg></span>
               <div>
                 <p class="contact-list__label" data-i18n="common.address">Address</p>
-                <p class="contact-list__value" data-bind="clinic.address">[ADDRESS]</p>
+                <p class="contact-list__value" data-bind="clinic.address">P.O. Box 475, Vwawa - Mbozi, Songwe</p>
+              </div>
+            </li>
+            <li>
+              <span class="contact-list__icon"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-map-pin"></use></svg></span>
+              <div>
+                <p class="contact-list__label" data-i18n="common.location">Location</p>
+                <p class="contact-list__value" data-bind="clinic.physicalAddress">Vwawa, Florida Street (near the Church of God the Father)</p>
               </div>
             </li>
             <li>
               <span class="contact-list__icon"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-clock"></use></svg></span>
               <div>
                 <p class="contact-list__label" data-i18n="common.openingHours">Opening hours</p>
-                <p class="contact-list__value" data-bind="clinic.hours">[HOURS]</p>
+                <p class="contact-list__value" data-bind="clinic.hours">Open 24/7 · Opening time 7:30 AM local</p>
               </div>
             </li>
             <li>
               <span class="contact-list__icon"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-message-circle"></use></svg></span>
               <div>
                 <p class="contact-list__label" data-i18n="common.preferredContact">Preferred contact method</p>
-                <p class="contact-list__value" data-bind="clinic.preferredContact">[PREFERRED_CONTACT]</p>
+                <p class="contact-list__value" data-bind="clinic.preferredContact">Phone or WhatsApp</p>
               </div>
             </li>
           </ul>
@@ -153,7 +163,7 @@
           <span class="emergency__icon"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-alert-triangle"></use></svg></span>
           <div>
             <h2 data-i18n="contact.emergency.title">Emergency and contact instructions</h2>
-            <p data-bind="clinic.emergency">[EMERGENCY_INSTRUCTIONS]</p>
+            <p data-bind="clinic.emergency">The clinic is open 24 hours a day. For urgent medical help, call 0726 498 771 or WhatsApp 0743 879 805.</p>
             <div class="emergency__actions">
               <a class="btn btn--ghost btn--sm" data-link="phone" href="#"><span data-i18n="common.call">Call</span></a>
               <a class="btn btn--ghost btn--sm" data-link="whatsapp" data-wa-message="contact.whatsapp.message" href="#"><span data-i18n="common.whatsapp">WhatsApp</span></a>
@@ -185,5 +195,7 @@
   <div id="siteFooter"></div>
   <script src="assets/js/content-data.js" defer></script>
   <script src="assets/js/main.js" defer></script>
+  <script src="assets/js/motion.js" defer></script>
+  <script>addEventListener('DOMContentLoaded',function(){var w=window.motionKit&&window.motionKit.wheel;if(!w)return;var d=document.getElementById('staffDialog');function s(){(document.body.classList.contains('nav-open')||(d&&d.open))?w.stop():w.start();}new MutationObserver(s).observe(document.body,{attributes:true,attributeFilter:['class']});if(d)new MutationObserver(s).observe(d,{attributes:true,attributeFilter:['open']});s();});</script>
 </body>
 </html>

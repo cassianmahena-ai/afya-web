@@ -28,7 +28,10 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600..700&family=Onest:wght@400;500;600&display=swap" rel="stylesheet">
+  <script>if (matchMedia('(prefers-reduced-motion: no-preference)').matches && CSS.supports('animation-timeline: view()')) document.documentElement.setAttribute('data-8b-live','');</script>
   <link rel="stylesheet" href="assets/css/styles.css">
+  <link rel="stylesheet" href="assets/css/motion.css">
+  <link rel="stylesheet" href="assets/css/liquid-glass.css">
   <script>document.documentElement.classList.add('js');</script>
 
   <script type="application/ld+json">
@@ -62,7 +65,7 @@
         <li><a href="appointment.html">Book / Enquire</a></li>
         <li><a href="privacy.html">Privacy &amp; Terms</a></li>
       </ul>
-      <p>Call [CLINIC_PHONE] or WhatsApp [WHATSAPP_NUMBER].</p>
+      <p>Call 0726 498 771 or WhatsApp 0743 879 805.</p>
     </div>
   </noscript>
 
@@ -143,5 +146,7 @@
   <div id="siteFooter"></div>
   <script src="assets/js/content-data.js" defer></script>
   <script src="assets/js/main.js" defer></script>
+  <script src="assets/js/motion.js" defer></script>
+  <script>addEventListener('DOMContentLoaded',function(){var w=window.motionKit&&window.motionKit.wheel;if(!w)return;var d=document.getElementById('staffDialog');function s(){(document.body.classList.contains('nav-open')||(d&&d.open))?w.stop():w.start();}new MutationObserver(s).observe(document.body,{attributes:true,attributeFilter:['class']});if(d)new MutationObserver(s).observe(d,{attributes:true,attributeFilter:['open']});s();});</script>
 </body>
 </html>
