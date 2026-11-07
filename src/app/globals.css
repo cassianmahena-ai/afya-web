@@ -1,0 +1,439 @@
+/*
+ * Design tokens. Palette comes from the Lupyana logo: sage green, steel blue,
+ * warm gold and charcoal. Everything below uses these tokens, never raw values,
+ * so each clinic can later get its own theme by overriding them.
+ */
+:root {
+  --ground: #f2f5ee;
+  --surface: #ffffff;
+  --ink: #1e2b20;
+  --ink-soft: #435247;
+  --moss: #3c6a3a;
+  --moss-deep: #1f3a24;
+  --gold: #e3a72f;
+  --gold-hover: #efb948;
+  --gold-wash: #f6e6bb;
+  --river: #3f6e93;
+  --line: #d3dcc8;
+  --field-border: #8d9d86;
+
+  --font-display: "Bricolage Grotesque Variable", system-ui, sans-serif;
+  --font-body: "Atkinson Hyperlegible", system-ui, sans-serif;
+
+  --radius: 8px;
+  --gutter: 1.25rem;
+  --max: 68rem;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 1.125rem;
+  line-height: 1.6;
+  /* Room for the fixed contact bar on phones. */
+  padding-bottom: 5.75rem;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  margin: 0;
+}
+
+p {
+  margin: 0;
+}
+
+a {
+  color: inherit;
+}
+
+:focus-visible {
+  outline: 3px solid var(--river);
+  outline-offset: 3px;
+}
+
+.container {
+  width: 100%;
+  max-width: var(--max);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+/* Accessibility helpers */
+.skip-link {
+  position: absolute;
+  left: 0.75rem;
+  top: -4rem;
+  z-index: 20;
+  background: var(--surface);
+  color: var(--ink);
+  padding: 0.6rem 1rem;
+  border-radius: var(--radius);
+}
+
+.skip-link:focus {
+  top: 0.75rem;
+}
+
+/* Sample-content notice */
+.sample-banner {
+  background: var(--gold-wash);
+  color: var(--ink);
+  font-size: 0.95rem;
+  line-height: 1.4;
+  padding: 0.6rem var(--gutter);
+}
+
+/* Top band: header and hero on deep moss */
+.top {
+  background: var(--moss-deep);
+  color: var(--ground);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-block: 1rem;
+}
+
+.wordmark {
+  font-family: var(--font-display);
+  font-weight: 650;
+  font-size: 1.2rem;
+  letter-spacing: -0.01em;
+}
+
+.lang-switch {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
+  padding: 0 1rem;
+  border: 1.5px solid rgb(242 245 238 / 0.55);
+  border-radius: var(--radius);
+  text-decoration: none;
+  font-size: 1rem;
+}
+
+.lang-switch:hover {
+  background: rgb(242 245 238 / 0.12);
+}
+
+/* Hero */
+.hero {
+  padding-block: 2.5rem 3.5rem;
+}
+
+.hero__title {
+  font-size: clamp(2.4rem, 9vw, 4.6rem);
+  line-height: 1.04;
+  letter-spacing: -0.025em;
+  max-width: 17ch;
+  text-wrap: balance;
+}
+
+.hero__lead {
+  margin-top: 1.5rem;
+  max-width: 34rem;
+  font-size: 1.2rem;
+  color: rgb(242 245 238 / 0.88);
+}
+
+.hero__actions {
+  display: none;
+}
+
+.hero__directions {
+  font-size: 1.05rem;
+  text-underline-offset: 0.25em;
+}
+
+/* Buttons */
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 3.25rem;
+  padding: 0 1.4rem;
+  border: 2px solid transparent;
+  border-radius: var(--radius);
+  font-family: var(--font-display);
+  font-weight: 650;
+  font-size: 1.05rem;
+  line-height: 1.1;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.15s;
+}
+
+.button--gold {
+  background: var(--gold);
+  color: var(--moss-deep);
+}
+
+.button--gold:hover {
+  background: var(--gold-hover);
+}
+
+.button--pale {
+  background: var(--ground);
+  color: var(--moss-deep);
+}
+
+.button--pale:hover {
+  background: var(--surface);
+}
+
+.button--outline {
+  border-color: rgb(242 245 238 / 0.7);
+  color: var(--ground);
+}
+
+.button--outline:hover {
+  background: rgb(242 245 238 / 0.12);
+}
+
+.button--moss {
+  background: var(--moss);
+  color: var(--surface);
+}
+
+.button--moss:hover {
+  background: var(--moss-deep);
+}
+
+/* Fixed contact bar (phones) */
+.action-bar {
+  position: fixed;
+  inset: auto 0 0 0;
+  z-index: 10;
+  display: grid;
+  grid-template-columns: 1.1fr 1.1fr 1fr;
+  gap: 0.5rem;
+  padding: 0.6rem var(--gutter) calc(0.6rem + env(safe-area-inset-bottom));
+  background: var(--moss-deep);
+  border-top: 1px solid rgb(242 245 238 / 0.2);
+}
+
+.action-bar .button {
+  min-height: 3.1rem;
+  padding: 0 0.5rem;
+  font-size: 0.98rem;
+}
+
+/* Sections */
+.section {
+  padding-block: 3.5rem;
+}
+
+.section--tint {
+  background: var(--surface);
+  border-block: 1px solid var(--line);
+}
+
+.section__title {
+  font-size: clamp(1.7rem, 5vw, 2.4rem);
+  line-height: 1.1;
+  letter-spacing: -0.015em;
+}
+
+.section__intro {
+  margin-top: 0.85rem;
+  max-width: 38rem;
+  color: var(--ink-soft);
+}
+
+/* Services: a plain ruled list, not a card grid */
+.services {
+  list-style: none;
+  margin: 2rem 0 0;
+  padding: 0;
+}
+
+.services__item {
+  padding-block: 1.15rem;
+  border-top: 1px solid var(--line);
+}
+
+.services__name {
+  font-size: 1.3rem;
+  line-height: 1.2;
+}
+
+.services__text {
+  margin-top: 0.3rem;
+  max-width: 34rem;
+  color: var(--ink-soft);
+}
+
+/* Hours and location */
+.info {
+  display: grid;
+  gap: 3rem;
+}
+
+.hours {
+  margin: 1.5rem 0 0;
+}
+
+.hours__row {
+  display: flex;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding-block: 0.85rem;
+  border-top: 1px solid var(--line);
+}
+
+.hours__row dt {
+  font-weight: 700;
+}
+
+.hours__row dd {
+  margin: 0;
+  text-align: right;
+}
+
+.note {
+  margin-top: 1rem;
+  color: var(--ink-soft);
+  font-size: 1rem;
+}
+
+.address {
+  margin: 1.5rem 0 1.5rem;
+  font-style: normal;
+  display: grid;
+  gap: 0.6rem;
+}
+
+.address__place {
+  font-family: var(--font-display);
+  font-weight: 650;
+  font-size: 1.3rem;
+}
+
+.address__label {
+  font-weight: 700;
+}
+
+.text-link {
+  color: var(--moss);
+  text-underline-offset: 0.2em;
+}
+
+/* Appointment form */
+.form {
+  margin-top: 2rem;
+  max-width: 34rem;
+  padding: 1.5rem;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  display: grid;
+  gap: 1.25rem;
+}
+
+.field {
+  display: grid;
+  gap: 0.4rem;
+}
+
+.field label {
+  font-weight: 700;
+}
+
+.field input,
+.field select {
+  width: 100%;
+  min-height: 3rem;
+  padding: 0 0.85rem;
+  border: 1.5px solid var(--field-border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--ink);
+  font-family: var(--font-body);
+  /* 16px or larger stops iOS Safari from zooming into the field. */
+  font-size: 1rem;
+}
+
+.form__privacy {
+  color: var(--ink-soft);
+  font-size: 0.95rem;
+}
+
+/* Footer */
+.footer {
+  padding-block: 2rem;
+  color: var(--ink-soft);
+  font-size: 0.95rem;
+}
+
+/* Tablet and up */
+@media (min-width: 48rem) {
+  :root {
+    --gutter: 2rem;
+  }
+
+  body {
+    padding-bottom: 0;
+  }
+
+  .action-bar {
+    display: none;
+  }
+
+  .hero {
+    padding-block: 4.5rem 5.5rem;
+  }
+
+  .hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem 1.25rem;
+    margin-top: 2.25rem;
+  }
+
+  .section {
+    padding-block: 5rem;
+  }
+
+  .services {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 3.5rem;
+  }
+
+  .info {
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .button {
+    transition: none;
+  }
+}
