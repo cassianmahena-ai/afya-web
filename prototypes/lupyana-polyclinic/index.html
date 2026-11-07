@@ -1,0 +1,372 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lupyana Polyclinic | Healthcare in [DISTRICT], [REGION]</title>
+  <meta name="description" content="Lupyana Polyclinic in [WARD], [DISTRICT], [REGION]. Find clinic information, services, opening hours, location and contact details. Call or WhatsApp to confirm services.">
+  <link rel="canonical" href="[SITE_URL]">
+  <meta name="theme-color" content="#0B5D5A">
+  <meta name="robots" content="index, follow">
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Lupyana Polyclinic">
+  <meta property="og:title" content="Lupyana Polyclinic | Healthcare in [DISTRICT], [REGION]">
+  <meta property="og:description" content="Lupyana Polyclinic in [WARD], [DISTRICT], [REGION]. Find clinic information, services, opening hours, location and contact details.">
+  <meta property="og:image" content="assets/img/og-image.png">
+  <meta property="og:image:alt" content="Lupyana Polyclinic logo and wordmark">
+  <meta property="og:locale" content="en_TZ">
+  <meta property="og:url" content="[SITE_URL]">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Lupyana Polyclinic | Healthcare in [DISTRICT], [REGION]">
+  <meta name="twitter:description" content="Clinic information, services, opening hours, location and contact details.">
+  <meta name="twitter:image" content="assets/img/og-image.png">
+
+  <link rel="icon" href="assets/img/favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="icon" href="assets/img/favicon-16.png" sizes="16x16" type="image/png">
+  <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600..700&family=Onest:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <script>document.documentElement.classList.add('js');</script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "MedicalClinic",
+    "name": "Lupyana Polyclinic",
+    "description": "[CLINIC_INTRO]",
+    "url": "[SITE_URL]",
+    "telephone": "[CLINIC_PHONE]",
+    "email": "[CLINIC_EMAIL]",
+    "logo": "[SITE_URL]/assets/img/logo.png",
+    "image": "[PHOTO_HERO]",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "[ADDRESS]",
+      "addressLocality": "[WARD]",
+      "addressRegion": "[REGION]",
+      "addressCountry": "TZ"
+    },
+    "areaServed": "[DISTRICT], [REGION], Tanzania",
+    "openingHours": "[HOURS]"
+  }
+  </script>
+</head>
+<body data-page="home">
+  <a class="skip-link" href="#main" data-i18n="common.skip">Skip to content</a>
+  <div id="siteHeader"></div>
+
+  <noscript>
+    <div class="noscript-nav">
+      <strong>Lupyana Polyclinic</strong>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="services.html">Services</a></li>
+        <li><a href="team.html">Doctors &amp; Team</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a href="appointment.html">Book / Enquire</a></li>
+        <li><a href="privacy.html">Privacy &amp; Terms</a></li>
+      </ul>
+      <p>Call [CLINIC_PHONE] or WhatsApp [WHATSAPP_NUMBER].</p>
+    </div>
+  </noscript>
+
+  <main id="main">
+    <!-- Hero -->
+    <section class="hero" aria-labelledby="home-title">
+      <div class="container">
+        <div class="hero__panel">
+          <div class="hero__content">
+            <p class="eyebrow" data-bind="clinic.locationLine">[WARD], [DISTRICT] · [REGION]</p>
+            <h1 id="home-title" data-bind="clinic.name">Lupyana Polyclinic</h1>
+            <p class="hero__lead" data-bind="clinic.tagline">[TAGLINE]</p>
+            <p class="hero__body" data-bind="clinic.intro">[CLINIC_INTRO]</p>
+            <div class="hero__actions">
+              <a class="btn btn--primary btn--lg" href="appointment.html">
+                <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-calendar"></use></svg>
+                <span data-i18n="common.requestAppointment">Request appointment</span>
+              </a>
+              <a class="btn btn--ghost btn--lg" data-link="whatsapp" data-wa-message="contact.whatsapp.message" href="#">
+                <svg class="icon icon--fill" aria-hidden="true" focusable="false"><use href="#i-whatsapp"></use></svg>
+                <span data-i18n="common.whatsappUs">WhatsApp us</span>
+              </a>
+              <a class="btn btn--link" data-link="map" href="#">
+                <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-map-pin"></use></svg>
+                <span data-i18n="common.getDirections">Get directions</span>
+              </a>
+            </div>
+            <ul class="hero__meta">
+              <li>
+                <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-clock"></use></svg>
+                <span data-bind="clinic.hours">[HOURS]</span>
+              </li>
+              <li>
+                <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-map-pin"></use></svg>
+                <span data-bind="clinic.address">[ADDRESS]</span>
+              </li>
+            </ul>
+          </div>
+
+          <div class="hero__media">
+            <div class="ph ph--16x9" role="img" aria-label="Clinic exterior or reception placeholder, 16 by 9">
+              <div class="ph__inner">
+                <svg class="ph__icon" aria-hidden="true" focusable="false"><use href="#i-image"></use></svg>
+                <span class="ph__label">Hero image · 16:9</span>
+                <span class="ph__token">[PHOTO_HERO]</span>
+              </div>
+            </div>
+            <div class="hero__badge">
+              <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-shield-check"></use></svg>
+              <div>
+                <strong data-i18n="home.hero.badgeTitle">Clinic information</strong>
+                <span data-i18n="home.hero.badgeBody">Call or WhatsApp to confirm services and opening hours.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Quick information strip -->
+    <section class="quick-strip" aria-label="Quick information">
+      <div class="container quick-strip__grid">
+        <article class="quick-card">
+          <span class="quick-card__icon"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-clock"></use></svg></span>
+          <div>
+            <p class="quick-card__label" data-i18n="home.quick.hours">Opening hours</p>
+            <p class="quick-card__value" data-bind="clinic.hours">[HOURS]</p>
+          </div>
+        </article>
+        <article class="quick-card">
+          <span class="quick-card__icon"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-phone"></use></svg></span>
+          <div>
+            <p class="quick-card__label" data-i18n="home.quick.call">Call the clinic</p>
+            <p class="quick-card__value"><a data-link="phone" href="#"><span data-bind="clinic.phone">[CLINIC_PHONE]</span></a></p>
+          </div>
+        </article>
+        <article class="quick-card">
+          <span class="quick-card__icon"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-map-pin"></use></svg></span>
+          <div>
+            <p class="quick-card__label" data-i18n="home.quick.location">Find us</p>
+            <p class="quick-card__value" data-bind="clinic.address">[ADDRESS]</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- Services overview -->
+    <section class="section" id="services">
+      <div class="container">
+        <div class="section-head">
+          <div class="section-head__text">
+            <p class="eyebrow" data-i18n="home.services.eyebrow">Medical services</p>
+            <h2 data-i18n="home.services.title">Services at Lupyana Polyclinic</h2>
+            <p data-i18n="home.services.lead">Services and availability are confirmed by the clinic. Please call or WhatsApp to check before you travel.</p>
+          </div>
+          <a class="btn btn--ghost" href="services.html">
+            <span data-i18n="common.viewAllServices">View all services</span>
+            <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-arrow-right"></use></svg>
+          </a>
+        </div>
+        <div class="grid grid--4" id="homeServices"></div>
+        <p class="fineprint" data-i18n="home.services.note">Service names, descriptions and departments are placeholders until the clinic approves them. [SERVICE_LIST]</p>
+      </div>
+    </section>
+
+    <!-- About teaser -->
+    <section class="section section--surface">
+      <div class="container split">
+        <div class="split__media">
+          <div class="ph ph--4x3" role="img" aria-label="Clinic building or team placeholder, 4 by 3">
+            <div class="ph__inner">
+              <svg class="ph__icon" aria-hidden="true" focusable="false"><use href="#i-image"></use></svg>
+              <span class="ph__label">Clinic image · 4:3</span>
+              <span class="ph__token">[PHOTO_ABOUT]</span>
+            </div>
+          </div>
+        </div>
+        <div>
+          <p class="eyebrow" data-i18n="home.about.eyebrow">About the clinic</p>
+          <h2 data-i18n="home.about.title">About Lupyana Polyclinic</h2>
+          <p class="lead" data-bind="clinic.intro">[CLINIC_INTRO]</p>
+          <ul class="about-teaser__points">
+            <li>
+              <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-check"></use></svg>
+              <span><strong data-i18n="common.openingHours">Opening hours</strong>: <span data-bind="clinic.hours">[HOURS]</span></span>
+            </li>
+            <li>
+              <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-check"></use></svg>
+              <span><strong data-i18n="common.location">Location</strong>: <span data-bind="clinic.address">[ADDRESS]</span></span>
+            </li>
+          </ul>
+          <div class="actions">
+            <a class="btn btn--primary" href="about.html">
+              <span data-i18n="home.about.cta">About the clinic</span>
+              <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-arrow-right"></use></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Team teaser: hidden automatically until a profile is approved -->
+    <section class="section" id="teamTeaser" hidden>
+      <div class="container">
+        <div class="section-head">
+          <div class="section-head__text">
+            <p class="eyebrow" data-i18n="home.team.eyebrow">Doctors and medical team</p>
+            <h2 data-i18n="home.team.title">Meet the team</h2>
+            <p data-i18n="home.team.lead">Profiles appear only after written consent. [STAFF_LIST]</p>
+          </div>
+          <a class="btn btn--ghost" href="team.html">
+            <span data-i18n="home.team.cta">Meet the team</span>
+            <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-arrow-right"></use></svg>
+          </a>
+        </div>
+        <div class="grid grid--4" id="homeTeam"></div>
+      </div>
+    </section>
+
+    <!-- Gallery teaser: hidden automatically until a photo is approved -->
+    <section class="section section--surface" id="galleryTeaser" hidden>
+      <div class="container">
+        <div class="section-head">
+          <div class="section-head__text">
+            <p class="eyebrow" data-i18n="home.gallery.eyebrow">Facilities</p>
+            <h2 data-i18n="home.gallery.title">A look around the clinic</h2>
+            <p data-i18n="home.gallery.lead">Approved facility photos only. [PHOTOS]</p>
+          </div>
+        </div>
+        <div class="grid grid--3" id="homeGallery"></div>
+      </div>
+    </section>
+
+    <!-- Contact and location -->
+    <section class="section" id="contact">
+      <div class="container">
+        <div class="section-head">
+          <div class="section-head__text">
+            <p class="eyebrow" data-i18n="home.contact.eyebrow">Contact and location</p>
+            <h2 data-i18n="home.contact.title">Visit or contact the clinic</h2>
+            <p data-i18n="home.contact.lead">Call, WhatsApp or send an enquiry. The clinic will confirm the details with you.</p>
+          </div>
+        </div>
+
+        <div class="split">
+          <div class="panel">
+            <h3 class="panel__title" data-i18n="contact.details.title">Clinic details</h3>
+            <ul class="contact-list">
+              <li>
+                <span class="contact-list__icon"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-phone"></use></svg></span>
+                <div>
+                  <p class="contact-list__label" data-i18n="common.phone">Phone</p>
+                  <p class="contact-list__value"><a data-link="phone" href="#"><span data-bind="clinic.phone">[CLINIC_PHONE]</span></a></p>
+                </div>
+              </li>
+              <li>
+                <span class="contact-list__icon"><svg class="icon icon--fill" aria-hidden="true" focusable="false"><use href="#i-whatsapp"></use></svg></span>
+                <div>
+                  <p class="contact-list__label" data-i18n="common.whatsapp">WhatsApp</p>
+                  <p class="contact-list__value"><a data-link="whatsapp" data-wa-message="contact.whatsapp.message" href="#"><span data-bind="clinic.whatsapp">[WHATSAPP_NUMBER]</span></a></p>
+                </div>
+              </li>
+              <li>
+                <span class="contact-list__icon"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-mail"></use></svg></span>
+                <div>
+                  <p class="contact-list__label" data-i18n="common.email">Email</p>
+                  <p class="contact-list__value"><a data-link="email" href="#"><span data-bind="clinic.email">[CLINIC_EMAIL]</span></a></p>
+                </div>
+              </li>
+              <li>
+                <span class="contact-list__icon"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-map-pin"></use></svg></span>
+                <div>
+                  <p class="contact-list__label" data-i18n="common.address">Address</p>
+                  <p class="contact-list__value" data-bind="clinic.address">[ADDRESS]</p>
+                </div>
+              </li>
+              <li>
+                <span class="contact-list__icon"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-clock"></use></svg></span>
+                <div>
+                  <p class="contact-list__label" data-i18n="common.openingHours">Opening hours</p>
+                  <p class="contact-list__value" data-bind="clinic.hours">[HOURS]</p>
+                </div>
+              </li>
+            </ul>
+            <div class="actions" style="margin-top:1.25rem">
+              <a class="btn btn--primary" href="appointment.html">
+                <span data-i18n="common.requestAppointment">Request appointment</span>
+              </a>
+              <a class="btn btn--ghost" data-link="whatsapp" data-wa-message="contact.whatsapp.message" href="#">
+                <span data-i18n="common.whatsappUs">WhatsApp us</span>
+              </a>
+            </div>
+          </div>
+
+          <div>
+            <div class="map-frame" id="mapBlock"></div>
+            <div class="map-actions">
+              <p data-i18n="home.contact.lead">Call, WhatsApp or send an enquiry. The clinic will confirm the details with you.</p>
+              <a class="btn btn--ghost btn--sm" data-link="map" href="#">
+                <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-map-pin"></use></svg>
+                <span data-i18n="common.getDirections">Get directions</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Emergency instructions -->
+    <section class="section section--tight">
+      <div class="container">
+        <div class="emergency" role="note">
+          <span class="emergency__icon"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-alert-triangle"></use></svg></span>
+          <div>
+            <h2 data-i18n="home.emergency.title">Emergency and contact instructions</h2>
+            <p data-bind="clinic.emergency">[EMERGENCY_INSTRUCTIONS]</p>
+            <div class="emergency__actions">
+              <a class="btn btn--ghost btn--sm" data-link="phone" href="#"><span data-i18n="common.call">Call</span></a>
+              <a class="btn btn--ghost btn--sm" data-link="whatsapp" data-wa-message="contact.whatsapp.message" href="#"><span data-i18n="common.whatsapp">WhatsApp</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Final CTA -->
+    <section class="section section--tight">
+      <div class="container">
+        <div class="cta-band">
+          <div class="cta-band__inner">
+            <div>
+              <h2 data-i18n="home.cta.title">Request an appointment</h2>
+              <p data-i18n="home.cta.body">Call, WhatsApp or send an enquiry. The clinic will contact you using the details you provide.</p>
+              <p class="fineprint" data-i18n="home.cta.note">Please do not send medical history, diagnoses or prescriptions.</p>
+            </div>
+            <div class="cta-band__actions">
+              <a class="btn btn--accent" data-link="phone" href="#">
+                <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-phone"></use></svg>
+                <span data-i18n="common.call">Call</span>
+              </a>
+              <a class="btn btn--white" data-link="whatsapp" data-wa-message="contact.whatsapp.message" href="#">
+                <svg class="icon icon--fill" aria-hidden="true" focusable="false"><use href="#i-whatsapp"></use></svg>
+                <span data-i18n="common.whatsapp">WhatsApp</span>
+              </a>
+              <a class="btn btn--outline-white" href="appointment.html">
+                <span data-i18n="common.requestAppointment">Request appointment</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="siteFooter"></div>
+  <script src="assets/js/content-data.js" defer></script>
+  <script src="assets/js/main.js" defer></script>
+</body>
+</html>

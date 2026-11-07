@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+
+# Thank-you and error pages should not be indexed.
+Disallow: /404.html
+
+# Before launch: replace [SITE_URL] with the live https:// origin and remove
+# the leading "# " from the Sitemap line. A sitemap URL must be absolute.
+# Sitemap: [SITE_URL]/sitemap.xml
