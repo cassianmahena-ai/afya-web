@@ -276,3 +276,7 @@ input:focus,select:focus,textarea:focus{outline:3px solid var(--blue-500);outlin
   .brand img{height:64px}
   body{padding-bottom:84px}
 }
+@media (max-width:640px){
+  .pv{left:8px;right:8px;transform:none;max-width:none}
+  .pv-panel{width:100%}
+}
