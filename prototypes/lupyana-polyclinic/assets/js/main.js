@@ -72,6 +72,10 @@
       '<path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/>',
     clock: '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
     mail: '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/>',
+    instagram:
+      '<rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><path d="M17.5 6.5h.01"/>',
+    tiktok:
+      '<path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/>',
     "arrow-right": '<path d="M5 12h14"/><path d="m13 6 6 6-6 6"/>',
     menu: '<path d="M4 7h16M4 12h16M4 17h16"/>',
     close: '<path d="M6 6l12 12M18 6 6 18"/>',
@@ -295,6 +299,26 @@
     )}" data-i18n-aria="common.whatsappUs">${icon("whatsapp", "icon--fill")}</a>`;
   }
 
+  /* Social links: only approved https links are shown; placeholders stay hidden. */
+  function socialHTML() {
+    const items = (content.clinic.social || []).filter(
+      (item) => item && !isPlaceholder(item.url) && /^https:\/\//i.test(item.url)
+    );
+    if (!items.length) return "";
+    const links = items
+      .map(
+        (item) =>
+          `<li><a href="${esc(item.url)}" target="_blank" rel="noopener noreferrer" aria-label="${esc(
+            item.label
+          )} ${esc(item.handle || "")}">${icon(item.id)}<span>${esc(item.label)}</span></a></li>`
+      )
+      .join("");
+    return `<h2 class="footer__title footer__social-title" data-i18n="footer.social">${esc(
+      t("footer.social")
+    )}</h2>
+          <ul class="footer__social">${links}</ul>`;
+  }
+
   function footerHTML() {
     const quick = [
       ["home", "index.html", "nav.home"],
@@ -338,6 +362,7 @@
       content.clinic.email
     )}</span></a></li>
           </ul>
+          ${socialHTML()}
         </div>
         <div>
           <h2 class="footer__title" data-i18n="footer.hours">${esc(t("footer.hours"))}</h2>

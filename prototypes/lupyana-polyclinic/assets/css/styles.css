@@ -1958,6 +1958,38 @@ a.is-placeholder {
   text-underline-offset: 3px;
 }
 
+/* Social links: icon + name, 44px tall tap targets */
+.footer__social-title {
+  margin-top: 1.5rem;
+}
+
+.footer__social {
+  display: grid;
+  gap: 0.25rem;
+  font-size: 0.86rem;
+}
+
+.footer__social a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  min-height: 44px;
+  color: #e4f1ee;
+  text-decoration: none;
+}
+
+.footer__social .icon {
+  width: 18px;
+  height: 18px;
+  color: #8fc0b8;
+}
+
+.footer__social a:hover {
+  color: var(--c-accent);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
 .footer__hours {
   color: #e4f1ee;
   font-size: 0.88rem;
