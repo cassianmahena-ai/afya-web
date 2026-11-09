@@ -500,16 +500,40 @@
     return placeholderHTML(label, src, ratio);
   }
 
+  function waNumber() {
+    return digits(content.clinic.whatsapp).replace(/^0/, "255");
+  }
+
+  function waHref(text) {
+    return `https://wa.me/${waNumber()}?text=${encodeURIComponent(text)}`;
+  }
+
+  function telHref() {
+    return `tel:${String(content.clinic.phone).replace(/[^\d+]/g, "").replace(/^0/, "+255")}`;
+  }
+
   function serviceCard(service) {
+    const name = langValue(service.name);
+    const points = (service.points && (service.points[lang] || service.points.en)) || [];
+    const list = points.length
+      ? `<ul class="service-card__points">${points.map((p) => `<li>${esc(p)}</li>`).join("")}</ul>`
+      : "";
+    const message = t("service.wa.message").replace("{service}", name);
     return `<article class="card service-card reveal">
       <span class="card__icon">${icon(service.icon || "stethoscope")}</span>
-      <h3>${fmt(langValue(service.name))}</h3>
+      <h3>${fmt(name)}</h3>
       <p>${fmt(langValue(service.desc))}</p>
+      ${list}
       <div class="card__foot">
         <span class="chip">${fmt(langValue(service.department))}</span>
-        <a class="link-arrow" href="appointment.html?service=${encodeURIComponent(service.id)}">${esc(
-      t("common.enquire")
-    )}${icon("arrow-right")}</a>
+      </div>
+      <div class="card__actions">
+        <a class="btn btn--primary btn--sm" href="${esc(waHref(message))}" target="_blank" rel="noopener noreferrer">${icon("whatsapp")}<span>${esc(
+      t("service.book")
+    )}</span></a>
+        <a class="btn btn--ghost btn--sm" href="${esc(telHref())}">${icon("phone")}<span>${esc(
+      t("common.call")
+    )}</span></a>
       </div>
     </article>`;
   }
@@ -1036,7 +1060,19 @@
 
       const endpoint = content.site.enquiryEndpoint;
       if (isPlaceholder(endpoint) || !/^https?:\/\//i.test(endpoint)) {
-        showFormStatus("info", t("appointment.form.notConfigured"));
+        // No server: hand the request to the clinic through WhatsApp.
+        const serviceName = service.options[service.selectedIndex]?.text || "";
+        const when = [date.value, time && time.value].filter(Boolean).join(" ");
+        let text = t("appointment.wa.message")
+          .replace("{name}", name.value.trim())
+          .replace("{phone}", phone.value.trim())
+          .replace("{service}", serviceName)
+          .replace("{when}", when);
+        const note = message ? message.value.trim() : "";
+        if (note) text += `\n${t("appointment.wa.note").replace("{message}", note)}`;
+        localStorage.setItem("lupyana_enquiry_last", String(Date.now()));
+        showFormStatus("success", t("appointment.form.opening"));
+        window.open(waHref(text), "_blank", "noopener");
         return;
       }
 

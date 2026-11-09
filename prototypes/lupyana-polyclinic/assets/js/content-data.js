@@ -203,7 +203,7 @@ window.__LUPYANA_CONTENT__ = {
     "appointment.form.message": "Short message",
     "appointment.form.messageHint": "Do not include medical details.",
     "appointment.form.consent": "I agree that the clinic may contact me about this request using the details I have provided.",
-    "appointment.form.submit": "Send enquiry",
+    "appointment.form.submit": "Send on WhatsApp",
     "appointment.form.sending": "Sending…",
     "appointment.form.success": "Thank you. The clinic will contact you using the details provided.",
     "appointment.form.error": "Something went wrong. Please try again, or call or WhatsApp the clinic.",
@@ -272,7 +272,12 @@ window.__LUPYANA_CONTENT__ = {
     "meta.404.title": "Page Not Found | Lupyana Polyclinic",
     "meta.404.desc": "The page you are looking for could not be found.",
     "home.about.cta": "About the clinic",
-    "home.team.cta": "Meet the team"
+    "home.team.cta": "Meet the team",
+    "service.book": "Book on WhatsApp",
+    "service.wa.message": "Hello Lupyana Polyclinic, I would like to book an appointment for {service}.",
+    "appointment.wa.message": "Hello Lupyana Polyclinic, I would like to book an appointment.\nName: {name}\nPhone: {phone}\nService: {service}\nPreferred day: {when}",
+    "appointment.wa.note": "Note: {message}",
+    "appointment.form.opening": "Opening WhatsApp. Press send there to finish your request."
   },
   "sw": {
     "nav.home": "[SW: Home]",
@@ -282,9 +287,9 @@ window.__LUPYANA_CONTENT__ = {
     "nav.contact": "[SW: Contact]",
     "nav.appointment": "[SW: Book / Enquire]",
     "nav.privacy": "[SW: Privacy & Terms]",
-    "common.call": "[SW: Call]",
+    "common.call": "Piga simu",
     "common.callNow": "[SW: Call the clinic]",
-    "common.whatsapp": "[SW: WhatsApp]",
+    "common.whatsapp": "WhatsApp",
     "common.whatsappUs": "[SW: WhatsApp us]",
     "common.directions": "[SW: Directions]",
     "common.getDirections": "[SW: Get directions]",
@@ -418,7 +423,7 @@ window.__LUPYANA_CONTENT__ = {
     "appointment.form.message": "[SW: Short message]",
     "appointment.form.messageHint": "[SW: Do not include medical details.]",
     "appointment.form.consent": "[SW: I agree that the clinic may contact me about this request using the details I have provided.]",
-    "appointment.form.submit": "[SW: Send enquiry]",
+    "appointment.form.submit": "Tuma kupitia WhatsApp",
     "appointment.form.sending": "[SW: Sending…]",
     "appointment.form.success": "[SW: Thank you. The clinic will contact you using the details provided.]",
     "appointment.form.error": "[SW: Something went wrong. Please try again, or call or WhatsApp the clinic.]",
@@ -487,7 +492,12 @@ window.__LUPYANA_CONTENT__ = {
     "meta.404.desc": "[SW: The page you are looking for could not be found.]",
     "home.about.cta": "[SW: About the clinic]",
     "home.team.cta": "[SW: Meet the team]",
-    "footer.social": "[SW: Follow us]"
+    "footer.social": "[SW: Follow us]",
+    "service.book": "Weka miadi WhatsApp",
+    "service.wa.message": "Habari Lupyana Polyclinic, ningependa kuweka miadi ya {service}.",
+    "appointment.wa.message": "Habari Lupyana Polyclinic, ningependa kuweka miadi.\nJina: {name}\nSimu: {phone}\nHuduma: {service}\nSiku ninayopendelea: {when}",
+    "appointment.wa.note": "Ujumbe: {message}",
+    "appointment.form.opening": "Inafungua WhatsApp. Bonyeza tuma huko kukamilisha ombi lako."
   },
   "services": [
     {
@@ -498,12 +508,24 @@ window.__LUPYANA_CONTENT__ = {
         "sw": "Huduma za Meno"
       },
       "desc": {
-        "en": "Dental check-ups and care for the whole family.",
-        "sw": "Uchunguzi na huduma za meno kwa familia nzima."
+        "en": "Care for healthy teeth and gums, for adults and children.",
+        "sw": "Huduma ya meno na fizi yenye afya kwa watu wazima na watoto."
       },
       "department": {
         "en": "Specialist care",
         "sw": "Huduma za kitaalamu"
+      },
+      "points": {
+        "en": [
+          "Check-ups and advice",
+          "Help with tooth pain",
+          "Care for the whole family"
+        ],
+        "sw": [
+          "Uchunguzi na ushauri",
+          "Msaada wa maumivu ya jino",
+          "Huduma kwa familia nzima"
+        ]
       }
     },
     {
@@ -514,12 +536,24 @@ window.__LUPYANA_CONTENT__ = {
         "sw": "Huduma za Macho"
       },
       "desc": {
-        "en": "Eye care and sight checks.",
-        "sw": "Huduma za macho na upimaji wa uwezo wa kuona."
+        "en": "Care for your eyes and your sight, whatever your age.",
+        "sw": "Huduma kwa macho na uwezo wako wa kuona, kwa kila rika."
       },
       "department": {
         "en": "Specialist care",
         "sw": "Huduma za kitaalamu"
+      },
+      "points": {
+        "en": [
+          "Eye and sight checks",
+          "Advice on glasses",
+          "Help when your eyes bother you"
+        ],
+        "sw": [
+          "Uchunguzi wa macho",
+          "Ushauri kuhusu miwani",
+          "Msaada macho yanapokusumbua"
+        ]
       }
     },
     {
@@ -530,12 +564,24 @@ window.__LUPYANA_CONTENT__ = {
         "sw": "Ukunga na Uzazi"
       },
       "desc": {
-        "en": "Care for mothers during pregnancy and childbirth.",
-        "sw": "Huduma kwa mama wakati wa ujauzito na kujifungua."
+        "en": "Care for mothers through pregnancy and the birth of their baby.",
+        "sw": "Huduma kwa mama wakati wa ujauzito na kujifungua mtoto."
       },
       "department": {
         "en": "Women's health",
         "sw": "Afya ya wanawake"
+      },
+      "points": {
+        "en": [
+          "Check-ups during pregnancy",
+          "Care at delivery",
+          "Advice for a safe birth"
+        ],
+        "sw": [
+          "Vipimo wakati wa ujauzito",
+          "Huduma wakati wa kujifungua",
+          "Ushauri wa uzazi salama"
+        ]
       }
     },
     {
@@ -546,12 +592,24 @@ window.__LUPYANA_CONTENT__ = {
         "sw": "Magonjwa ya Wanawake"
       },
       "desc": {
-        "en": "Women's reproductive health care.",
-        "sw": "Huduma za afya ya uzazi kwa wanawake."
+        "en": "Health care for women's reproductive health at every stage of life.",
+        "sw": "Huduma za afya ya uzazi kwa wanawake katika kila hatua ya maisha."
       },
       "department": {
         "en": "Women's health",
         "sw": "Afya ya wanawake"
+      },
+      "points": {
+        "en": [
+          "Check-ups for women",
+          "Advice and treatment",
+          "Help with concerns you want to discuss"
+        ],
+        "sw": [
+          "Uchunguzi kwa wanawake",
+          "Ushauri na matibabu",
+          "Msaada kwa mambo unayotaka kujadili"
+        ]
       }
     },
     {
@@ -562,12 +620,24 @@ window.__LUPYANA_CONTENT__ = {
         "sw": "Afya ya Watoto"
       },
       "desc": {
-        "en": "Health care for babies and children.",
-        "sw": "Huduma za afya kwa watoto wachanga na watoto."
+        "en": "Health care for babies, children and teenagers.",
+        "sw": "Huduma za afya kwa watoto wachanga, watoto na vijana."
       },
       "department": {
         "en": "Children's health",
         "sw": "Afya ya watoto"
+      },
+      "points": {
+        "en": [
+          "Check-ups for children",
+          "Treatment when a child is unwell",
+          "Advice for parents"
+        ],
+        "sw": [
+          "Uchunguzi wa watoto",
+          "Matibabu mtoto anapougua",
+          "Ushauri kwa wazazi"
+        ]
       }
     },
     {
@@ -578,12 +648,24 @@ window.__LUPYANA_CONTENT__ = {
         "sw": "Ukuaji wa Mtoto"
       },
       "desc": {
-        "en": "Following a child's growth and development.",
-        "sw": "Kufuatilia ukuaji na maendeleo ya mtoto."
+        "en": "Keeping track of how your child grows and develops.",
+        "sw": "Kufuatilia jinsi mtoto wako anavyokua na kuendelea."
       },
       "department": {
         "en": "Children's health",
         "sw": "Afya ya watoto"
+      },
+      "points": {
+        "en": [
+          "Weight and height checks",
+          "Following development over time",
+          "Advice on feeding and care"
+        ],
+        "sw": [
+          "Kupima uzito na urefu",
+          "Kufuatilia maendeleo kwa muda",
+          "Ushauri wa lishe na malezi"
+        ]
       }
     },
     {
@@ -594,12 +676,24 @@ window.__LUPYANA_CONTENT__ = {
         "sw": "Huduma kwa Mama"
       },
       "desc": {
-        "en": "Support for mothers before and after birth.",
+        "en": "Support for mothers before and after the birth of their baby.",
         "sw": "Msaada kwa mama kabla na baada ya kujifungua."
       },
       "department": {
         "en": "Women's health",
         "sw": "Afya ya wanawake"
+      },
+      "points": {
+        "en": [
+          "Check-ups for the mother",
+          "Advice after delivery",
+          "Support with caring for your baby"
+        ],
+        "sw": [
+          "Uchunguzi wa mama",
+          "Ushauri baada ya kujifungua",
+          "Msaada wa kumtunza mtoto"
+        ]
       }
     },
     {
@@ -610,12 +704,24 @@ window.__LUPYANA_CONTENT__ = {
         "sw": "Kliniki ya Jumla"
       },
       "desc": {
-        "en": "General consultations and treatment.",
-        "sw": "Ushauri na matibabu ya jumla."
+        "en": "General consultation and treatment for everyday health problems.",
+        "sw": "Ushauri na matibabu ya jumla kwa matatizo ya kawaida ya afya."
       },
       "department": {
         "en": "General care",
         "sw": "Huduma za jumla"
+      },
+      "points": {
+        "en": [
+          "See a clinician",
+          "Treatment for common illnesses",
+          "Advice and referral when needed"
+        ],
+        "sw": [
+          "Kuonana na mtaalamu wa afya",
+          "Matibabu ya magonjwa ya kawaida",
+          "Ushauri na rufaa inapohitajika"
+        ]
       }
     }
   ],

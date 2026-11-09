@@ -1347,6 +1347,44 @@ a.is-placeholder {
   padding-top: 0.75rem;
 }
 
+.service-card__points {
+  margin: 0.25rem 0 0.5rem;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 0.4rem;
+}
+
+.service-card__points li {
+  position: relative;
+  padding-left: 1.25rem;
+  color: var(--c-muted);
+  font-size: var(--fs-sm);
+  line-height: 1.5;
+}
+
+.service-card__points li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.55em;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background: var(--c-accent, currentColor);
+}
+
+.card__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  padding-top: 0.5rem;
+}
+
+.card__actions .btn {
+  min-height: 44px;
+}
+
 /* Staff */
 .staff-card {
   padding: 0.75rem;
