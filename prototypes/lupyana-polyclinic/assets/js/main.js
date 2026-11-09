@@ -661,9 +661,10 @@
   function setupMap() {
     const map = $("#mapBlock");
     if (!map) return;
-    const link = content.clinic.mapLink;
+    const link = content.clinic.mapEmbed;
     const isEmbed =
-      !isPlaceholder(link) && /^https:\/\/(www\.)?google\.[^/]+\/maps\/embed/i.test(link);
+      !isPlaceholder(link) &&
+      /^https:\/\/(www\.)?google\.[^/]+\/maps(\/embed|\?)/i.test(link);
 
     if (isEmbed) {
       map.innerHTML = `<iframe src="${esc(

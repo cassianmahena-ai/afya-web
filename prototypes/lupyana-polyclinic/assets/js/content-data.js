@@ -32,7 +32,7 @@ window.__LUPYANA_CONTENT__ = {
     "preferredContact": "Phone or WhatsApp",
     "hours": "Open 24 hours, every day · Wazi saa 24, kila siku",
     "emergency": "The clinic is open 24 hours a day. For urgent medical help, call 0726 498 771 or WhatsApp 0743 879 805.",
-    "mapLink": "[MAP_LINK]",
+    "mapLink": "https://www.google.com/maps/dir/?api=1&destination=-9.108515,32.943714",
     "social": [
       {
         "id": "instagram",
@@ -54,7 +54,10 @@ window.__LUPYANA_CONTENT__ = {
     "facilities": "[FACILITIES]",
     "labServices": "[LAB_SERVICES]",
     "staffList": "[STAFF_LIST]",
-    "photos": "[PHOTOS]"
+    "photos": "[PHOTOS]",
+    "latitude": -9.108515,
+    "longitude": 32.943714,
+    "mapEmbed": "https://www.google.com/maps?q=-9.108515,32.943714&z=16&output=embed"
   },
   "en": {
     "nav.home": "Home",
@@ -182,7 +185,7 @@ window.__LUPYANA_CONTENT__ = {
     "contact.hero.lead": "Use the details below or send an enquiry. The clinic will confirm the best way to reach you.",
     "contact.details.title": "Clinic details",
     "contact.map.title": "Find the clinic",
-    "contact.map.note": "Map embed placeholder: [MAP_LINK]",
+    "contact.map.note": "Tap the map or the button for directions to the clinic.",
     "contact.whatsapp.message": "Hello Lupyana Polyclinic, I would like to enquire about...",
     "contact.emergency.title": "Emergency and contact instructions",
     "contact.cta.title": "Send an appointment enquiry",
@@ -251,7 +254,7 @@ window.__LUPYANA_CONTENT__ = {
     "notfound.body": "The page you are looking for does not exist or has moved. Use the links below to continue.",
     "notfound.eyebrow": "404",
     "toast.placeholder": "This detail is awaiting clinic approval. Please check back soon.",
-    "toast.map": "The map link is awaiting clinic approval.",
+    "toast.map": "Opening directions…",
     "meta.home.title": "Lupyana Polyclinic | Healthcare in Mbozi, Songwe",
     "meta.home.desc": "Lupyana Polyclinic in Vwawa, Mbozi, Songwe. Find clinic information, services, opening hours, location and contact details. Call or WhatsApp to confirm services.",
     "meta.about.title": "About Lupyana Polyclinic | Clinic information",
@@ -397,7 +400,7 @@ window.__LUPYANA_CONTENT__ = {
     "contact.hero.lead": "[SW: Use the details below or send an enquiry. The clinic will confirm the best way to reach you.]",
     "contact.details.title": "[SW: Clinic details]",
     "contact.map.title": "[SW: Find the clinic]",
-    "contact.map.note": "[SW: Map embed placeholder: [MAP_LINK]]",
+    "contact.map.note": "Gusa ramani au kitufe kupata maelekezo ya kufika kliniki.",
     "contact.whatsapp.message": "[SW: Hello Lupyana Polyclinic, I would like to enquire about...]",
     "contact.emergency.title": "[SW: Emergency and contact instructions]",
     "contact.cta.title": "[SW: Send an appointment enquiry]",
@@ -465,7 +468,7 @@ window.__LUPYANA_CONTENT__ = {
     "notfound.body": "[SW: The page you are looking for does not exist or has moved. Use the links below to continue.]",
     "notfound.eyebrow": "[SW: 404]",
     "toast.placeholder": "[SW: This detail is awaiting clinic approval. Please check back soon.]",
-    "toast.map": "[SW: The map link is awaiting clinic approval.]",
+    "toast.map": "Inafungua maelekezo…",
     "meta.home.title": "[SW: Lupyana Polyclinic | Healthcare in Mbozi, Songwe]",
     "meta.home.desc": "[SW: Lupyana Polyclinic in Vwawa, Mbozi, Songwe. Find clinic information, services, opening hours, location and contact details. Call or WhatsApp to confirm services.]",
     "meta.about.title": "[SW: About Lupyana Polyclinic | Clinic information]",
