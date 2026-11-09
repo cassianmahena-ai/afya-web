@@ -76,6 +76,9 @@
       '<rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><path d="M17.5 6.5h.01"/>',
     tiktok:
       '<path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/>',
+    tooth:
+      '<path d="M7.5 3.5c-2.2 0-4 1.8-4 4.5 0 2.6 1.2 3.6 1.7 6.3.4 2.3.8 6.2 2.6 6.2 1.5 0 1.6-3.7 2.2-5.3.3-.8 1.5-.8 1.8 0 .6 1.6.7 5.3 2.2 5.3 1.8 0 2.2-3.9 2.6-6.2.5-2.7 1.7-3.7 1.7-6.3 0-2.7-1.8-4.5-4-4.5-1.7 0-2.5.8-4.5.8S9.2 3.5 7.5 3.5z"/>',
+    eye: '<path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>',
     "arrow-right": '<path d="M5 12h14"/><path d="m13 6 6 6-6 6"/>',
     menu: '<path d="M4 7h16M4 12h16M4 17h16"/>',
     close: '<path d="M6 6l12 12M18 6 6 18"/>',
@@ -597,7 +600,7 @@
 
   function renderLists() {
     renderServices($("#homeServices"), 4);
-    renderServices($("#servicesGrid"), 6);
+    renderServices($("#servicesGrid"), 8);
     renderMiniCards($("#departmentsList"), content.departments || []);
     renderMiniCards($("#facilitiesList"), content.facilities || []);
 
