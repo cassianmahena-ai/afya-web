@@ -335,6 +335,12 @@ h3 {
     grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
   }
 
+  /* Media-first rows give the photo the narrower column, so the home About
+     photo renders at exactly the same size as the About page photo. */
+  .split--media-first {
+    grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+  }
+
   .split--reverse > :first-child {
     order: 2;
   }
@@ -1041,14 +1047,15 @@ a.is-placeholder {
   width: 54px;
   height: 54px;
   border-radius: 50%;
-  background: #25d366;
-  color: #073b2a;
+  background: var(--c-primary);
+  color: #fff;
   box-shadow: 0 14px 30px -12px rgba(7, 59, 42, 0.55);
   text-decoration: none;
   transition: transform var(--transition), box-shadow var(--transition);
 }
 
 .wa-float:hover {
+  background: var(--c-primary-700);
   transform: scale(1.05);
   box-shadow: 0 18px 36px -12px rgba(7, 59, 42, 0.6);
 }
@@ -1056,6 +1063,11 @@ a.is-placeholder {
 .wa-float .icon {
   width: 28px;
   height: 28px;
+}
+
+/* In the dark theme --c-primary turns light mint, so use a dark icon on it. */
+[data-theme="dark"] .wa-float {
+  color: #071312;
 }
 
 .wa-float.is-placeholder {
@@ -1593,6 +1605,85 @@ a.is-placeholder {
   box-shadow: var(--shadow-md);
 }
 
+/* Approved clinic photos on the About page and the home About teaser. */
+.about-photo {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  object-position: center 38%;
+  border-radius: var(--radius-lg);
+  background: var(--c-surface-2);
+  box-shadow: var(--shadow-md);
+}
+
+/* Photo hover: a slow zoom and a deeper shadow. Only for precise pointers so a
+   touch screen never leaves an image stuck in its hovered state. */
+@media (hover: hover) and (pointer: fine) {
+  .about-photo,
+  .hero__photo {
+    transition:
+      transform 480ms cubic-bezier(0.16, 1, 0.3, 1),
+      box-shadow 480ms cubic-bezier(0.16, 1, 0.3, 1),
+      filter 480ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .about-photo:hover,
+  .hero__photo:hover {
+    transform: scale(1.02);
+    filter: saturate(1.05);
+  }
+
+  .about-photo:hover {
+    box-shadow: var(--shadow-lg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .about-photo:hover,
+  .hero__photo:hover {
+    transform: none;
+    filter: none;
+  }
+}
+
+/* Photos ease in the first time they enter the viewport. The hidden state is
+   gated on scripting support, so a visitor without JavaScript still sees the
+   photographs; the reveal itself is added by main.js. */
+@media (scripting: enabled) {
+  .photo-fade {
+    opacity: 0;
+    transform: translateY(16px) scale(0.99);
+    transition:
+      opacity 700ms cubic-bezier(0.16, 1, 0.3, 1),
+      transform 480ms cubic-bezier(0.16, 1, 0.3, 1),
+      box-shadow 480ms cubic-bezier(0.16, 1, 0.3, 1),
+      filter 480ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .photo-fade.is-in {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* The arrival reset outranks the shared hover rule, so restate the hover zoom
+   once the photo has settled. */
+@media (hover: hover) and (pointer: fine) {
+  .photo-fade.is-in:hover {
+    transform: scale(1.02);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .photo-fade,
+  .photo-fade.is-in,
+  .photo-fade.is-in:hover {
+    opacity: 1;
+    transform: none;
+  }
+}
+
 .about-teaser__points {
   display: grid;
   gap: 0.55rem;
@@ -1958,6 +2049,38 @@ a.is-placeholder {
   text-underline-offset: 3px;
 }
 
+/* Social links: icon + name, 44px tall tap targets */
+.footer__social-title {
+  margin-top: 1.5rem;
+}
+
+.footer__social {
+  display: grid;
+  gap: 0.25rem;
+  font-size: 0.86rem;
+}
+
+.footer__social a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  min-height: 44px;
+  color: #e4f1ee;
+  text-decoration: none;
+}
+
+.footer__social .icon {
+  width: 18px;
+  height: 18px;
+  color: #8fc0b8;
+}
+
+.footer__social a:hover {
+  color: var(--c-accent);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
 .footer__hours {
   color: #e4f1ee;
   font-size: 0.88rem;
@@ -1971,19 +2094,16 @@ a.is-placeholder {
   line-height: 1.55;
 }
 
-.lang--footer {
-  margin-top: 1.15rem;
-  border-color: rgba(255, 255, 255, 0.22);
-  background: rgba(255, 255, 255, 0.06);
+/* The footer no longer carries a language switch: the header keeps one on
+   desktop and the mobile menu keeps one on phones. There the control is a
+   full-width segmented pill so it reads as a proper switch. */
+.mobile-nav__actions .lang {
+  justify-content: stretch;
+  gap: 3px;
 }
 
-.lang--footer .lang__btn {
-  color: #cfe3df;
-}
-
-.lang--footer .lang__btn[aria-pressed="true"] {
-  background: var(--c-accent);
-  color: var(--c-on-accent);
+.mobile-nav__actions .lang__btn {
+  flex: 1;
 }
 
 .footer__bottom {
@@ -2504,12 +2624,23 @@ dialog.staff-dialog::backdrop {
     display: grid;
   }
 
-  .header__wa {
-    display: none;
-  }
-
+  /* The header WhatsApp button is the only WhatsApp control on the site, so
+     it is never hidden. Below 700px it becomes an icon-only button so the
+     header still fits on a phone. */
   .grid--4 {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 700px) {
+  .header__wa {
+    width: 42px;
+    min-width: 42px;
+    padding-inline: 0;
+  }
+
+  .header__wa span {
+    display: none;
   }
 }
 
@@ -2648,6 +2779,14 @@ dialog.staff-dialog::backdrop {
     --gutter: 1rem;
   }
 
+  .brand {
+    gap: 0.5rem;
+  }
+
+  .header__actions {
+    gap: 0.25rem;
+  }
+
   .brand__sub {
     display: none;
   }
@@ -2759,6 +2898,19 @@ dialog.staff-dialog::backdrop {
 }
 
 @media (max-width: 380px) {
+  .brand {
+    min-width: 0;
+  }
+
+  .brand__text {
+    overflow: hidden;
+  }
+
+  .brand__name {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
   .brand__mark {
     width: 38px;
     height: 38px;
@@ -2820,5 +2972,132 @@ dialog.staff-dialog::backdrop {
 
   a {
     text-decoration: underline;
+  }
+
+  /* A photo that was never scrolled into view must still print. */
+  .photo-fade {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
+/* Homepage hero: content on the left, photo on the right with a soft fade */
+.hero--immersive {
+  padding: 0;
+  background: #fff;
+}
+.hero--immersive .container { width: 100%; max-width: none; padding: 0; }
+
+.hero__panel--immersive {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  align-items: center;
+  min-height: clamp(540px, 72vh, 700px);
+  overflow: hidden;
+  padding: clamp(2.5rem, 6vw, 5rem) clamp(1.5rem, 7vw, 6rem);
+  border: 0;
+  border-radius: 0;
+  background: #fff;
+}
+
+.hero__media {
+  position: absolute;
+  z-index: 0;
+  inset: 0 0 0 auto;
+  width: 78%;
+  -webkit-mask-image: linear-gradient(90deg, transparent 0%, rgba(0, 0, 0, 0.18) 22%, rgba(0, 0, 0, 0.62) 44%, #000 62%);
+  mask-image: linear-gradient(90deg, transparent 0%, rgba(0, 0, 0, 0.18) 22%, rgba(0, 0, 0, 0.62) 44%, #000 62%);
+}
+.hero__photo {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 28%;
+}
+
+/* soft white wash keeps the copy readable where the photo fades out */
+.hero__panel--immersive::after {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  background: linear-gradient(90deg, #fff 0%, rgba(255, 255, 255, 0.94) 26%, rgba(255, 255, 255, 0.62) 42%, rgba(255, 255, 255, 0) 58%);
+  pointer-events: none;
+}
+
+.hero__panel--immersive .hero__content {
+  position: relative;
+  z-index: 2;
+  width: min(100%, 560px);
+}
+.hero__panel--immersive .eyebrow { color: var(--c-primary); }
+.hero__panel--immersive h1 { max-width: 13ch; color: var(--c-text); }
+.hero__panel--immersive .hero__lead { color: var(--c-primary-700); font-size: clamp(1.3rem, 2vw, 1.75rem); }
+.hero__panel--immersive .hero__body { max-width: 50ch; color: var(--c-muted); font-size: 1rem; }
+.hero__panel--immersive .hero__meta { border-top-color: var(--c-border); color: var(--c-muted); }
+.hero__panel--immersive .hero__meta .icon { color: var(--c-primary); }
+
+.hero__features {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 0.6rem;
+  margin: 1.5rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+.hero__features li {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.4rem 0.8rem;
+  border: 1px solid var(--c-border);
+  border-radius: 999px;
+  background: rgba(11, 93, 90, 0.06);
+  color: var(--c-text);
+  font-size: 0.85rem;
+}
+.hero__features .icon { width: 18px; height: 18px; color: var(--c-primary); }
+
+@media (max-width: 900px) {
+  .hero__panel--immersive {
+    flex-direction: column;
+    align-items: stretch;
+    min-height: 0;
+    padding: 2.25rem 1.25rem 2.5rem;
+  }
+  .hero__panel--immersive::after { display: none; }
+  .hero__media {
+    position: relative;
+    inset: auto;
+    order: 2;
+    width: 100%;
+    height: clamp(220px, 42vw, 320px);
+    margin-top: 1.75rem;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 74%, transparent 100%);
+    mask-image: linear-gradient(180deg, #000 0%, #000 74%, transparent 100%);
+  }
+  .hero__panel--immersive .hero__content { order: 1; width: 100%; }
+}
+
+/* Homepage hero: clinic information card over the photo */
+.hero__panel--immersive .hero__badge {
+  position: absolute;
+  z-index: 3;
+  right: clamp(1.5rem, 5vw, 4rem);
+  bottom: clamp(1.25rem, 3vw, 2.5rem);
+  margin: 0;
+}
+@media (max-width: 900px) {
+  .hero__panel--immersive .hero__badge {
+    position: relative;
+    order: 3;
+    right: auto;
+    bottom: auto;
+    width: 100%;
+    margin-top: -1.25rem;
   }
 }

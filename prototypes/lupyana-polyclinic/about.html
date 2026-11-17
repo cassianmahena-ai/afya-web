@@ -4,23 +4,23 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>About Lupyana Polyclinic | Clinic information</title>
-  <meta name="description" content="Learn about Lupyana Polyclinic in Mbozi, Songwe: background, mission, values, facilities and approved photos.">
-  <link rel="canonical" href="[SITE_URL]/about.html">
+  <meta name="description" content="Learn about Lupyana Polyclinic in Vwawa, Mbozi, Songwe: background, mission, values, key facts, facilities and contact details.">
+  <link rel="canonical" href="https://lupyana-polyclinic.vercel.app/about.html">
   <meta name="theme-color" content="#0B5D5A">
   <meta name="robots" content="index, follow">
 
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Lupyana Polyclinic">
   <meta property="og:title" content="About Lupyana Polyclinic | Clinic information">
-  <meta property="og:description" content="Background, mission, values, facilities and approved photos.">
-  <meta property="og:image" content="assets/img/og-image.png">
+  <meta property="og:description" content="Background, mission, values, key facts and facilities at Lupyana Polyclinic in Vwawa, Mbozi, Songwe.">
+  <meta property="og:image" content="https://lupyana-polyclinic.vercel.app/assets/img/og-image.png">
   <meta property="og:image:alt" content="Lupyana Polyclinic logo and wordmark">
   <meta property="og:locale" content="en_TZ">
-  <meta property="og:url" content="[SITE_URL]/about.html">
+  <meta property="og:url" content="https://lupyana-polyclinic.vercel.app/about.html">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="About Lupyana Polyclinic">
-  <meta name="twitter:description" content="Background, mission, values, facilities and approved photos.">
-  <meta name="twitter:image" content="assets/img/og-image.png">
+  <meta name="twitter:description" content="Background, mission, values, key facts and facilities.">
+  <meta name="twitter:image" content="https://lupyana-polyclinic.vercel.app/assets/img/og-image.png">
 
   <link rel="icon" href="assets/img/favicon-32.png" sizes="32x32" type="image/png">
   <link rel="icon" href="assets/img/favicon-16.png" sizes="16x16" type="image/png">
@@ -29,22 +29,32 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600..700&family=Onest:wght@400;500;600&display=swap" rel="stylesheet">
   <script>if (matchMedia('(prefers-reduced-motion: no-preference)').matches && CSS.supports('animation-timeline: view()')) document.documentElement.setAttribute('data-8b-live','');</script>
+  <script>(function(){var t='light';try{if(localStorage.getItem('lupyana_theme')==='dark')t='dark';}catch(e){}document.documentElement.setAttribute('data-theme',t);})();</script>
+    <script>(function(){try{var p=new URLSearchParams(location.search);if(p.get('intro')==='0')return;if(p.get('intro')!=='1'&&sessionStorage.getItem('lupyana_intro_seen'))return;var r=document.documentElement;r.classList.add('intro-pending');setTimeout(function(){r.classList.remove('intro-pending')},3600);}catch(e){}})();</script>
   <link rel="stylesheet" href="assets/css/styles.css">
   <link rel="stylesheet" href="assets/css/motion.css">
   <link rel="stylesheet" href="assets/css/liquid-glass.css">
-  <script>document.documentElement.classList.add('js');</script>
+  <link rel="stylesheet" href="assets/css/type-scale.css">
+  <link rel="stylesheet" href="assets/css/theme.css">
+  <link rel="stylesheet" href="assets/css/banners.css">
+  <link rel="stylesheet" href="assets/css/cookie.css">
+  <link rel="stylesheet" href="assets/css/dots.css">
+  <link rel="stylesheet" href="assets/css/buttons.css">
+  <link rel="stylesheet" href="assets/css/photos.css">
+    <link rel="stylesheet" href="assets/css/intro.css">
+<script>document.documentElement.classList.add('js');</script>
 
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "AboutPage",
     "name": "About Lupyana Polyclinic",
-    "url": "[SITE_URL]/about.html",
-    "description": "[CLINIC_INTRO]",
+    "url": "https://lupyana-polyclinic.vercel.app/about.html",
+    "description": "Lupyana Polyclinic is a 24-hour health centre in Vwawa, Mbozi, Songwe. We provide outpatient and inpatient care, surgical services, X-ray and laboratory diagnostics, and specialist care for mothers, children and eyes.",
     "isPartOf": {
       "@type": "WebSite",
       "name": "Lupyana Polyclinic",
-      "url": "[SITE_URL]"
+      "url": "https://lupyana-polyclinic.vercel.app"
     }
   }
   </script>
@@ -60,7 +70,6 @@
         <li><a href="index.html">Home</a></li>
         <li><a href="about.html">About</a></li>
         <li><a href="services.html">Services</a></li>
-        <li><a href="team.html">Doctors &amp; Team</a></li>
         <li><a href="contact.html">Contact</a></li>
         <li><a href="appointment.html">Book / Enquire</a></li>
         <li><a href="privacy.html">Privacy &amp; Terms</a></li>
@@ -72,32 +81,55 @@
   <main id="main">
     <section class="page-hero">
       <div class="container">
-        <nav class="breadcrumbs" aria-label="Breadcrumb">
+        <nav class="breadcrumbs" aria-label="Breadcrumb" data-i18n-aria="common.breadcrumb">
           <a href="index.html" data-i18n="common.home">Home</a>
           <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-chevron-right"></use></svg>
           <span aria-current="page" data-i18n="nav.about">About</span>
         </nav>
         <p class="eyebrow" data-i18n="about.hero.eyebrow">About Lupyana Polyclinic</p>
         <h1 data-i18n="about.hero.title">About the clinic</h1>
-        <p class="page-hero__lead" data-i18n="about.hero.lead">[CLINIC_INTRO]</p>
+        <p class="page-hero__lead" data-i18n="about.hero.lead">Lupyana Polyclinic is a 24-hour health centre in Vwawa, Mbozi, Songwe. We provide outpatient and inpatient care, surgical services, X-ray and laboratory diagnostics, and specialist care for mothers, children and eyes.</p>
       </div>
     </section>
+
+    <figure class="container about-banner">
+      <img src="assets/img/clinic/compound-panorama.jpg" width="1280" height="434" alt="Panorama of the Lupyana Polyclinic compound" data-i18n-alt="about.banner.alt" fetchpriority="high" decoding="async">
+    </figure>
 
     <section class="section">
       <div class="container split">
         <div>
           <p class="eyebrow" data-i18n="about.story.eyebrow">Our background</p>
-          <h2 data-i18n="about.story.title">How the clinic began</h2>
-          <p class="lead" style="margin-top:1rem" data-bind="clinic.history">[HISTORY]</p>
+          <h2 data-i18n="about.story.title">Serving Vwawa and Mbozi</h2>
+          <p class="lead" style="margin-top:1rem" data-bind="clinic.history">Lupyana Polyclinic serves families in Vwawa, Mbozi and the wider Songwe region from its premises on Florida Street.</p>
         </div>
         <div class="split__media">
-          <div class="ph ph--4x3" role="img" aria-label="Clinic building or community placeholder, 4 by 3" data-8b-motion="reshape" data-from="arch">
-            <div class="ph__inner">
-              <svg class="ph__icon" aria-hidden="true" focusable="false"><use href="#i-image"></use></svg>
-              <span class="ph__label">Clinic image · 4:3</span>
-              <span class="ph__token">[PHOTO_ABOUT]</span>
-            </div>
-          </div>
+          <img class="about-photo about-photo--tall photo-fade" src="assets/img/clinic/reception.jpg" width="960" height="1280" alt="Reception at Lupyana Polyclinic" data-i18n-alt="home.about.alt" loading="lazy" decoding="async">
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--surface" id="founder">
+      <div class="container founder">
+        <div class="founder__photo svc-slides" data-svc-slides data-index="0">
+          <button type="button" class="svc-slides__item is-active" data-lb-src="assets/img/clinic/founder.jpg" data-lb-caption="Dr. L.E. Lulandala">
+            <img src="assets/img/clinic/founder-sm.jpg" width="560" height="700" alt="Dr. L.E. Lulandala at his desk" data-i18n-alt="about.founder.alt" decoding="async">
+          </button>
+          <button type="button" class="svc-slides__item" data-lb-src="assets/img/clinic/founder-lobby.jpg" data-lb-caption="Dr. L.E. Lulandala" tabindex="-1">
+            <img data-src="assets/img/clinic/founder-lobby-sm.jpg" width="560" height="700" alt="Dr. L.E. Lulandala in the clinic lobby" data-i18n-alt="about.founder.alt3" decoding="async">
+          </button>
+          <button type="button" class="svc-slides__nav svc-slides__nav--prev" data-svc-step="-1" aria-label="Previous photo" data-i18n-aria="gallery.prev"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-arrow-right"></use></svg></button>
+          <button type="button" class="svc-slides__nav svc-slides__nav--next" data-svc-step="1" aria-label="Next photo" data-i18n-aria="gallery.next"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-arrow-right"></use></svg></button>
+          <span class="svc-slides__dots" aria-hidden="true"><i class="is-active"></i><i></i></span>
+        </div>
+        <div>
+          <p class="eyebrow" data-i18n="about.founder.eyebrow">Leadership</p>
+          <h2 class="founder__name">Dr. L.E. Lulandala</h2>
+          <ul class="founder__roles">
+            <li data-i18n="about.founder.role">Founder &amp; Medical Director</li>
+            <li data-i18n="about.founder.specialty">Specialist in Obstetrics &amp; Gynaecology</li>
+          </ul>
+          <p class="founder__body" data-i18n="about.founder.body">Dr. Lulandala founded Lupyana Polyclinic and leads its medical team.</p>
         </div>
       </div>
     </section>
@@ -109,13 +141,13 @@
             <span class="card__icon"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-heart-pulse"></use></svg></span>
             <p class="eyebrow" data-i18n="about.mission.eyebrow">Our mission</p>
             <h2 class="panel__title" data-i18n="about.mission.title">What we work towards</h2>
-            <p class="panel__body" data-bind="clinic.mission">[MISSION]</p>
+            <p class="panel__body" data-bind="clinic.mission">To provide accessible, safe and respectful health care to the people of Vwawa, Mbozi and Songwe at any hour.</p>
           </article>
           <article class="panel">
             <span class="card__icon"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-shield-check"></use></svg></span>
             <p class="eyebrow" data-i18n="about.values.eyebrow">Our values</p>
             <h2 class="panel__title" data-i18n="about.values.title">What guides the clinic</h2>
-            <p class="panel__body" data-bind="clinic.values">[VALUES]</p>
+            <p class="panel__body" data-bind="clinic.values">Care for every patient with dignity and respect.</p>
           </article>
         </div>
       </div>
@@ -126,9 +158,9 @@
         <div class="split">
           <div>
             <p class="eyebrow" data-i18n="about.facts.eyebrow">Key facts</p>
-            <h2 data-i18n="about.facts.title">Confirmed facts only</h2>
-            <p class="lead" style="margin-top:1rem" data-bind="clinic.keyFacts">[KEY_FACTS]</p>
-            <p class="fineprint" data-i18n="about.facts.note">Only facts approved by the clinic will be published here. [KEY_FACTS]</p>
+            <h2 data-i18n="about.facts.title">Key facts about the clinic</h2>
+            <p class="lead" style="margin-top:1rem" data-bind="clinic.keyFacts">Open 24 hours a day, 7 days a week. Services include outpatient (OPD) and inpatient (IPD) care, surgery, X-ray, laboratory tests, dental, eye, maternal, child growth and gynaecology care.</p>
+            <p class="fineprint" data-i18n="about.facts.note">Details are confirmed by the clinic. Please call or WhatsApp if you need to check anything.</p>
           </div>
           <div class="panel panel--surface">
             <h3 class="panel__title" data-i18n="contact.details.title">Clinic details</h3>
@@ -137,7 +169,7 @@
                 <span class="contact-list__icon"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-map-pin"></use></svg></span>
                 <div>
                   <p class="contact-list__label" data-i18n="common.address">Address</p>
-                  <p class="contact-list__value" data-bind="clinic.address">P.O. Box 475, Vwawa - Mbozi, Songwe</p>
+                  <p class="contact-list__value"><a data-link="map" href="#"><span data-bind="clinic.address">P.O. Box 475, Vwawa - Mbozi, Songwe</span></a></p>
                 </div>
               </li>
               <li>
@@ -151,7 +183,7 @@
                 <span class="contact-list__icon"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-clock"></use></svg></span>
                 <div>
                   <p class="contact-list__label" data-i18n="common.openingHours">Opening hours</p>
-                  <p class="contact-list__value" data-bind="clinic.hours">Open 24/7 · Opening time 7:30 AM local</p>
+                  <p class="contact-list__value" data-bind="clinic.hours">Open 24 hours a day, 7 days a week</p>
                 </div>
               </li>
               <li>
@@ -170,17 +202,18 @@
       </div>
     </section>
 
-    <section class="section section--surface">
+    <section class="section section--surface" id="gallery">
       <div class="container">
         <div class="section-head">
           <div class="section-head__text">
             <p class="eyebrow" data-i18n="about.facilities.eyebrow">Facilities</p>
             <h2 data-i18n="about.facilities.title">Facilities and gallery</h2>
-            <p data-bind="clinic.facilities">[FACILITIES]</p>
+            <p data-bind="clinic.facilities">The health centre has outpatient and inpatient departments, an operating theatre, X-ray and laboratory services, and dedicated maternal, child and eye care.</p>
           </div>
         </div>
+        <div class="gallery-filters" id="galleryFilters"></div>
         <div class="grid grid--3" id="aboutGallery"></div>
-        <p class="fineprint" data-i18n="about.facilities.note">Approved photos only. [PHOTOS]</p>
+        <p class="fineprint" data-i18n="about.facilities.note">Tap a photo to view it larger. Use the buttons to filter by area.</p>
       </div>
     </section>
 
@@ -194,13 +227,9 @@
               <p class="fineprint" data-i18n="home.cta.note">Please do not send medical history, diagnoses or prescriptions.</p>
             </div>
             <div class="cta-band__actions">
-              <a class="btn btn--accent" data-link="phone" href="#">
+              <a class="btn btn--primary" data-link="phone" href="#">
                 <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-phone"></use></svg>
                 <span data-i18n="common.call">Call</span>
-              </a>
-              <a class="btn btn--white" data-link="whatsapp" data-wa-message="contact.whatsapp.message" href="#">
-                <svg class="icon icon--fill" aria-hidden="true" focusable="false"><use href="#i-whatsapp"></use></svg>
-                <span data-i18n="common.whatsapp">WhatsApp</span>
               </a>
               <a class="btn btn--outline-white" href="appointment.html"><span data-i18n="common.requestAppointment">Request appointment</span></a>
             </div>
@@ -213,7 +242,12 @@
   <div id="siteFooter"></div>
   <script src="assets/js/content-data.js" defer></script>
   <script src="assets/js/main.js" defer></script>
+  <script src="assets/js/scroll-headings.js" defer></script>
+  <script src="assets/js/theme.js" defer></script>
+  <script src="assets/js/cookie.js" defer></script>
   <script src="assets/js/motion.js" defer></script>
+  <script src="assets/js/gallery.js" defer></script>
   <script>addEventListener('DOMContentLoaded',function(){var w=window.motionKit&&window.motionKit.wheel;if(!w)return;var d=document.getElementById('staffDialog');function s(){(document.body.classList.contains('nav-open')||(d&&d.open))?w.stop():w.start();}new MutationObserver(s).observe(document.body,{attributes:true,attributeFilter:['class']});if(d)new MutationObserver(s).observe(d,{attributes:true,attributeFilter:['open']});s();});</script>
+  <script src="assets/js/intro.js" defer></script>
 </body>
 </html>

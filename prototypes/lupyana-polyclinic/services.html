@@ -4,23 +4,23 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Medical Services | Lupyana Polyclinic</title>
-  <meta name="description" content="Medical services at Lupyana Polyclinic. Service names and availability are placeholders until approved by the clinic. Call or WhatsApp to check.">
-  <link rel="canonical" href="[SITE_URL]/services.html">
+  <meta name="description" content="Medical services at Lupyana Polyclinic, including outpatient and inpatient care, surgery, X-ray, laboratory, dental, eye, maternal and child health. Call or WhatsApp to check availability.">
+  <link rel="canonical" href="https://lupyana-polyclinic.vercel.app/services.html">
   <meta name="theme-color" content="#0B5D5A">
   <meta name="robots" content="index, follow">
 
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Lupyana Polyclinic">
   <meta property="og:title" content="Medical Services | Lupyana Polyclinic">
-  <meta property="og:description" content="Medical services at Lupyana Polyclinic. Service names and availability are placeholders until approved by the clinic.">
-  <meta property="og:image" content="assets/img/og-image.png">
+  <meta property="og:description" content="Medical services at Lupyana Polyclinic, including outpatient and inpatient care, surgery, X-ray, laboratory, dental, eye, maternal and child health.">
+  <meta property="og:image" content="https://lupyana-polyclinic.vercel.app/assets/img/og-image.png">
   <meta property="og:image:alt" content="Lupyana Polyclinic logo and wordmark">
   <meta property="og:locale" content="en_TZ">
-  <meta property="og:url" content="[SITE_URL]/services.html">
+  <meta property="og:url" content="https://lupyana-polyclinic.vercel.app/services.html">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Medical Services | Lupyana Polyclinic">
-  <meta name="twitter:description" content="Service names and availability are placeholders until approved by the clinic.">
-  <meta name="twitter:image" content="assets/img/og-image.png">
+  <meta name="twitter:description" content="Outpatient, inpatient, surgical, X-ray, laboratory, dental, eye, maternal and child health services.">
+  <meta name="twitter:image" content="https://lupyana-polyclinic.vercel.app/assets/img/og-image.png">
 
   <link rel="icon" href="assets/img/favicon-32.png" sizes="32x32" type="image/png">
   <link rel="icon" href="assets/img/favicon-16.png" sizes="16x16" type="image/png">
@@ -29,22 +29,32 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600..700&family=Onest:wght@400;500;600&display=swap" rel="stylesheet">
   <script>if (matchMedia('(prefers-reduced-motion: no-preference)').matches && CSS.supports('animation-timeline: view()')) document.documentElement.setAttribute('data-8b-live','');</script>
+  <script>(function(){var t='light';try{if(localStorage.getItem('lupyana_theme')==='dark')t='dark';}catch(e){}document.documentElement.setAttribute('data-theme',t);})();</script>
+    <script>(function(){try{var p=new URLSearchParams(location.search);if(p.get('intro')==='0')return;if(p.get('intro')!=='1'&&sessionStorage.getItem('lupyana_intro_seen'))return;var r=document.documentElement;r.classList.add('intro-pending');setTimeout(function(){r.classList.remove('intro-pending')},3600);}catch(e){}})();</script>
   <link rel="stylesheet" href="assets/css/styles.css">
   <link rel="stylesheet" href="assets/css/motion.css">
   <link rel="stylesheet" href="assets/css/liquid-glass.css">
-  <script>document.documentElement.classList.add('js');</script>
+  <link rel="stylesheet" href="assets/css/type-scale.css">
+  <link rel="stylesheet" href="assets/css/theme.css">
+  <link rel="stylesheet" href="assets/css/banners.css">
+  <link rel="stylesheet" href="assets/css/cookie.css">
+  <link rel="stylesheet" href="assets/css/dots.css">
+  <link rel="stylesheet" href="assets/css/buttons.css">
+  <link rel="stylesheet" href="assets/css/photos.css">
+    <link rel="stylesheet" href="assets/css/intro.css">
+<script>document.documentElement.classList.add('js');</script>
 
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "WebPage",
     "name": "Medical Services at Lupyana Polyclinic",
-    "url": "[SITE_URL]/services.html",
-    "description": "Service names and availability are placeholders until approved by the clinic.",
+    "url": "https://lupyana-polyclinic.vercel.app/services.html",
+    "description": "Outpatient, inpatient, surgical, X-ray, laboratory, dental, eye, maternal and child health services.",
     "isPartOf": {
       "@type": "WebSite",
       "name": "Lupyana Polyclinic",
-      "url": "[SITE_URL]"
+      "url": "https://lupyana-polyclinic.vercel.app"
     }
   }
   </script>
@@ -60,7 +70,6 @@
         <li><a href="index.html">Home</a></li>
         <li><a href="about.html">About</a></li>
         <li><a href="services.html">Services</a></li>
-        <li><a href="team.html">Doctors &amp; Team</a></li>
         <li><a href="contact.html">Contact</a></li>
         <li><a href="appointment.html">Book / Enquire</a></li>
         <li><a href="privacy.html">Privacy &amp; Terms</a></li>
@@ -72,14 +81,14 @@
   <main id="main">
     <section class="page-hero">
       <div class="container">
-        <nav class="breadcrumbs" aria-label="Breadcrumb">
+        <nav class="breadcrumbs" aria-label="Breadcrumb" data-i18n-aria="common.breadcrumb">
           <a href="index.html" data-i18n="common.home">Home</a>
           <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-chevron-right"></use></svg>
           <span aria-current="page" data-i18n="nav.services">Services</span>
         </nav>
         <p class="eyebrow" data-i18n="services.hero.eyebrow">Medical services</p>
         <h1 data-i18n="services.hero.title">Medical services</h1>
-        <p class="page-hero__lead" data-i18n="services.hero.lead">The list below is a placeholder until the clinic approves its services. Please call or WhatsApp to confirm what is available.</p>
+        <p class="page-hero__lead" data-i18n="services.hero.lead">Services at Lupyana Polyclinic are confirmed by the clinic. Please call or WhatsApp to check availability before you travel.</p>
       </div>
     </section>
 
@@ -92,7 +101,7 @@
           </div>
         </div>
         <div class="grid grid--3" id="servicesGrid"></div>
-        <p class="fineprint" data-i18n="home.services.note">Service names, descriptions and departments are placeholders until the clinic approves them. [SERVICE_LIST]</p>
+        <p class="fineprint" data-i18n="home.services.note">Services are confirmed by the clinic. Please call or WhatsApp to check availability before you travel. Outpatient (OPD), inpatient (IPD), surgery, X-ray, laboratory, and specialist maternal, child and eye care.</p>
       </div>
     </section>
 
@@ -120,10 +129,9 @@
         <div class="panel panel--surface">
           <span class="card__icon"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-flask"></use></svg></span>
           <h3 class="panel__title" data-i18n="services.hours.title">Days and hours of operation</h3>
-          <p class="panel__body" data-bind="clinic.hours">Open 24/7 · Opening time 7:30 AM local</p>
+          <p class="panel__body" data-bind="clinic.hours">Open 24 hours a day, 7 days a week</p>
           <div class="actions" style="margin-top:1rem">
             <a class="btn btn--primary btn--sm" href="appointment.html"><span data-i18n="common.requestAppointment">Request appointment</span></a>
-            <a class="btn btn--ghost btn--sm" data-link="whatsapp" data-wa-message="contact.whatsapp.message" href="#"><span data-i18n="common.whatsapp">WhatsApp</span></a>
           </div>
         </div>
       </div>
@@ -152,13 +160,9 @@
               <p class="fineprint" data-i18n="home.cta.note">Please do not send medical history, diagnoses or prescriptions.</p>
             </div>
             <div class="cta-band__actions">
-              <a class="btn btn--accent" data-link="phone" href="#">
+              <a class="btn btn--primary" data-link="phone" href="#">
                 <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-phone"></use></svg>
                 <span data-i18n="common.call">Call</span>
-              </a>
-              <a class="btn btn--white" data-link="whatsapp" data-wa-message="contact.whatsapp.message" href="#">
-                <svg class="icon icon--fill" aria-hidden="true" focusable="false"><use href="#i-whatsapp"></use></svg>
-                <span data-i18n="common.whatsapp">WhatsApp</span>
               </a>
               <a class="btn btn--outline-white" href="appointment.html"><span data-i18n="common.requestAppointment">Request appointment</span></a>
             </div>
@@ -171,7 +175,12 @@
   <div id="siteFooter"></div>
   <script src="assets/js/content-data.js" defer></script>
   <script src="assets/js/main.js" defer></script>
+  <script src="assets/js/scroll-headings.js" defer></script>
+  <script src="assets/js/theme.js" defer></script>
+  <script src="assets/js/cookie.js" defer></script>
   <script src="assets/js/motion.js" defer></script>
+  <script src="assets/js/gallery.js" defer></script>
   <script>addEventListener('DOMContentLoaded',function(){var w=window.motionKit&&window.motionKit.wheel;if(!w)return;var d=document.getElementById('staffDialog');function s(){(document.body.classList.contains('nav-open')||(d&&d.open))?w.stop():w.start();}new MutationObserver(s).observe(document.body,{attributes:true,attributeFilter:['class']});if(d)new MutationObserver(s).observe(d,{attributes:true,attributeFilter:['open']});s();});</script>
+  <script src="assets/js/intro.js" defer></script>
 </body>
 </html>

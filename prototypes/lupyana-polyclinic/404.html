@@ -10,7 +10,7 @@
   <meta property="og:site_name" content="Lupyana Polyclinic">
   <meta property="og:title" content="Page Not Found | Lupyana Polyclinic">
   <meta property="og:description" content="The page you are looking for could not be found.">
-  <meta property="og:image" content="assets/img/og-image.png">
+  <meta property="og:image" content="https://lupyana-polyclinic.vercel.app/assets/img/og-image.png">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="theme-color" content="#0B5D5A">
   <link rel="icon" href="assets/img/favicon-32.png" sizes="32x32" type="image/png">
@@ -20,9 +20,16 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600..700&family=Onest:wght@400;500;600&display=swap" rel="stylesheet">
   <script>if (matchMedia('(prefers-reduced-motion: no-preference)').matches && CSS.supports('animation-timeline: view()')) document.documentElement.setAttribute('data-8b-live','');</script>
+  <script>(function(){var t='light';try{if(localStorage.getItem('lupyana_theme')==='dark')t='dark';}catch(e){}document.documentElement.setAttribute('data-theme',t);})();</script>
   <link rel="stylesheet" href="assets/css/styles.css">
   <link rel="stylesheet" href="assets/css/motion.css">
   <link rel="stylesheet" href="assets/css/liquid-glass.css">
+  <link rel="stylesheet" href="assets/css/type-scale.css">
+  <link rel="stylesheet" href="assets/css/theme.css">
+  <link rel="stylesheet" href="assets/css/banners.css">
+  <link rel="stylesheet" href="assets/css/cookie.css">
+  <link rel="stylesheet" href="assets/css/dots.css">
+  <link rel="stylesheet" href="assets/css/buttons.css">
   <script>document.documentElement.classList.add('js');</script>
 </head>
 <body data-page="404">
@@ -36,7 +43,6 @@
         <li><a href="index.html">Home</a></li>
         <li><a href="about.html">About</a></li>
         <li><a href="services.html">Services</a></li>
-        <li><a href="team.html">Doctors &amp; Team</a></li>
         <li><a href="contact.html">Contact</a></li>
         <li><a href="appointment.html">Book / Enquire</a></li>
         <li><a href="privacy.html">Privacy &amp; Terms</a></li>
@@ -57,7 +63,6 @@
             <span data-i18n="common.backHome">Back to home</span>
           </a>
           <a class="btn btn--ghost" href="contact.html"><span data-i18n="common.contactUs">Contact us</span></a>
-          <a class="btn btn--ghost" data-link="whatsapp" data-wa-message="contact.whatsapp.message" href="#"><span data-i18n="common.whatsapp">WhatsApp</span></a>
         </div>
         <p class="fineprint" style="margin-top:1.5rem">
           <a class="link-arrow" href="services.html"><span data-i18n="nav.services">Services</span><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-arrow-right"></use></svg></a>
@@ -71,6 +76,9 @@
   <div id="siteFooter"></div>
   <script src="assets/js/content-data.js" defer></script>
   <script src="assets/js/main.js" defer></script>
+  <script src="assets/js/scroll-headings.js" defer></script>
+  <script src="assets/js/theme.js" defer></script>
+  <script src="assets/js/cookie.js" defer></script>
   <script src="assets/js/motion.js" defer></script>
   <script>addEventListener('DOMContentLoaded',function(){var w=window.motionKit&&window.motionKit.wheel;if(!w)return;var d=document.getElementById('staffDialog');function s(){(document.body.classList.contains('nav-open')||(d&&d.open))?w.stop():w.start();}new MutationObserver(s).observe(document.body,{attributes:true,attributeFilter:['class']});if(d)new MutationObserver(s).observe(d,{attributes:true,attributeFilter:['open']});s();});</script>
 </body>
