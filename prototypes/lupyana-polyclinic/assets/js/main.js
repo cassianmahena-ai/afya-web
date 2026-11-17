@@ -24,6 +24,19 @@
   const isPlaceholder = (value) =>
     typeof value === "string" && /\[[^\[\]]+\]/.test(value);
 
+  // Endpoint values that ship with the template must never be treated as live.
+  const isConfiguredEndpoint = (value) =>
+    typeof value === "string" &&
+    /^https?:\/\//i.test(value) &&
+    !isPlaceholder(value) &&
+    !/PASTE_|REPLACE_WITH|YOUR_|EXAMPLE\.com/i.test(value);
+
+  const pageFile = () => {
+    if (page === "home") return "";
+    if (page === "thankyou") return "thank-you.html";
+    return `${page}.html`;
+  };
+
   function getPath(object, path) {
     return path.split(".").reduce((acc, key) => (acc == null ? undefined : acc[key]), object);
   }
@@ -72,6 +85,10 @@
       '<path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/>',
     clock: '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
     mail: '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/>',
+    instagram:
+      '<rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><path d="M17.5 6.5h.01"/>',
+    tiktok:
+      '<path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/>',
     "arrow-right": '<path d="M5 12h14"/><path d="m13 6 6 6-6 6"/>',
     menu: '<path d="M4 7h16M4 12h16M4 17h16"/>',
     close: '<path d="M6 6l12 12M18 6 6 18"/>',
@@ -106,7 +123,9 @@
     send: '<path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/>',
     "external-link":
       '<path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>',
-    "arrow-up-right": '<path d="M7 17 17 7"/><path d="M7 7h10v10"/>'
+    "arrow-up-right": '<path d="M7 17 17 7"/><path d="M7 7h10v10"/>',
+    sun: '<circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/>',
+    moon: '<path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>'
   };
 
   function injectSprite() {
@@ -127,8 +146,9 @@
      Content loading
      ------------------------------------------------------------------------ */
   async function loadContent() {
-    if (location.protocol === "file:" && window.__LUPYANA_CONTENT__) {
-      return window.__LUPYANA_CONTENT__;
+    const local = window.__LUPYANA_CONTENT__ || window.LUPYANA_CONTENT;
+    if (location.protocol === "file:" && local) {
+      return local;
     }
     try {
       const response = await fetch("content.json", { cache: "no-store" });
@@ -136,7 +156,7 @@
     } catch (error) {
       /* fall through to the generated local copy */
     }
-    if (window.__LUPYANA_CONTENT__) return window.__LUPYANA_CONTENT__;
+    if (local) return local;
     throw new Error("content.json could not be loaded");
   }
 
@@ -172,7 +192,6 @@
       ["home", "index.html", "nav.home"],
       ["about", "about.html", "nav.about"],
       ["services", "services.html", "nav.services"],
-      ["team", "team.html", "nav.team"],
       ["contact", "contact.html", "nav.contact"],
       ["appointment", "appointment.html", "nav.appointment"]
     ];
@@ -189,31 +208,22 @@
       .join("");
 
     return `<header class="site-header" id="siteHeaderBar">
-      <div class="topbar">
-        <div class="container topbar__inner">
-          <p class="topbar__note">${icon("info")}<span data-i18n="topbar.note">${esc(
-      t("topbar.note")
-    )}</span></p>
-          <div class="topbar__links">
-            <a data-link="phone" href="#"><span data-bind="clinic.phone">${esc(
-              content.clinic.phone
-            )}</span></a>
-            <span class="topbar__sep" aria-hidden="true"></span>
-            <span>${icon("clock")}<span data-bind="clinic.hours">${esc(content.clinic.hours)}</span></span>
-          </div>
-        </div>
-      </div>
       <div class="container header__inner">
         ${brandHTML()}
-        <nav class="nav" aria-label="Primary">
+        <nav class="nav" aria-label="${esc(t("common.primaryNav"))}" data-i18n-aria="common.primaryNav">
           <ul class="nav__list">${links}</ul>
         </nav>
         <div class="header__actions">
+          <button class="icon-btn theme-toggle" type="button" data-theme-toggle aria-pressed="false" aria-label="Switch to dark theme" title="Switch to dark theme">${icon(
+            "moon"
+          )}</button>
           ${langHTML()}
           <a class="btn btn--ghost btn--sm header__call" data-link="phone" href="#">${icon(
             "phone"
           )}<span data-i18n="common.call">${esc(t("common.call"))}</span></a>
-          <a class="btn btn--primary btn--sm header__wa" data-link="whatsapp" data-wa-message="contact.whatsapp.message" href="#">${icon(
+          <a class="btn btn--primary btn--sm header__wa" data-link="whatsapp" data-wa-message="contact.whatsapp.message" href="#" aria-label="${esc(
+            t("common.whatsappUs")
+          )}" data-i18n-aria="common.whatsappUs">${icon(
             "whatsapp",
             "icon--fill"
           )}<span data-i18n="common.whatsapp">${esc(t("common.whatsapp"))}</span></a>
@@ -242,7 +252,7 @@
       "close"
     )}</button>
       </div>
-      <nav aria-label="Mobile primary">
+      <nav aria-label="${esc(t("common.mobileNav"))}" data-i18n-aria="common.mobileNav">
         <ul class="mobile-nav__links">
           ${links}
           <li><a class="mobile-nav__link" data-nav="privacy" href="privacy.html" data-i18n="nav.privacy">${esc(
@@ -254,10 +264,6 @@
         <a class="btn btn--primary btn--block" data-link="phone" href="#">${icon(
           "phone"
         )}<span data-i18n="common.callNow">${esc(t("common.callNow"))}</span></a>
-        <a class="btn btn--accent btn--block" data-link="whatsapp" data-wa-message="contact.whatsapp.message" href="#">${icon(
-          "whatsapp",
-          "icon--fill"
-        )}<span data-i18n="common.whatsappUs">${esc(t("common.whatsappUs"))}</span></a>
         <a class="btn btn--ghost btn--block" data-link="map" href="#">${icon(
           "map-pin"
         )}<span data-i18n="common.getDirections">${esc(t("common.getDirections"))}</span></a>
@@ -275,24 +281,43 @@
   }
 
   function mobileBarHTML() {
-    return `<nav class="mobile-bar" aria-label="Quick actions">
+    return `<nav class="mobile-bar" aria-label="${esc(t("common.quickActions"))}" data-i18n-aria="common.quickActions">
       <a data-link="phone" href="#">${icon("phone")}<span data-i18n="common.call">${esc(
       t("common.call")
     )}</span></a>
-      <a data-link="whatsapp" data-wa-message="contact.whatsapp.message" href="#">${icon(
-        "whatsapp",
-        "icon--fill"
-      )}<span data-i18n="common.whatsapp">${esc(t("common.whatsapp"))}</span></a>
       <a data-link="map" href="#">${icon("map-pin")}<span data-i18n="common.directions">${esc(
       t("common.directions")
     )}</span></a>
     </nav>`;
   }
 
-  function floatHTML() {
+  /* Floating WhatsApp button: fixed to the bottom-right corner on every page,
+     whatever the scroll position. It reuses the same data-link="whatsapp"
+     hook as the header button, so the number and message come from content.json. */
+  function waFloatHTML() {
     return `<a class="wa-float" data-link="whatsapp" data-wa-message="contact.whatsapp.message" href="#" aria-label="${esc(
       t("common.whatsappUs")
     )}" data-i18n-aria="common.whatsappUs">${icon("whatsapp", "icon--fill")}</a>`;
+  }
+
+  /* Social links: only approved https links are shown; placeholders stay hidden. */
+  function socialHTML() {
+    const items = (content.clinic.social || []).filter(
+      (item) => item && !isPlaceholder(item.url) && /^https:\/\//i.test(item.url)
+    );
+    if (!items.length) return "";
+    const links = items
+      .map(
+        (item) =>
+          `<li><a href="${esc(item.url)}" target="_blank" rel="noopener noreferrer" aria-label="${esc(
+            item.label
+          )} ${esc(item.handle || "")}">${icon(item.id)}<span>${esc(item.label)}</span></a></li>`
+      )
+      .join("");
+    return `<h2 class="footer__title footer__social-title" data-i18n="footer.social">${esc(
+      t("footer.social")
+    )}</h2>
+          <ul class="footer__social">${links}</ul>`;
   }
 
   function footerHTML() {
@@ -300,7 +325,6 @@
       ["home", "index.html", "nav.home"],
       ["about", "about.html", "nav.about"],
       ["services", "services.html", "nav.services"],
-      ["team", "team.html", "nav.team"],
       ["contact", "contact.html", "nav.contact"],
       ["appointment", "appointment.html", "nav.appointment"],
       ["privacy", "privacy.html", "nav.privacy"]
@@ -318,7 +342,6 @@
             <img src="assets/img/logo.png" alt="${esc(content.clinic.name)}" width="132" height="132">
           </a>
           <p class="footer__about" data-bind="clinic.intro">${esc(content.clinic.intro)}</p>
-          ${langHTML("lang--footer")}
         </div>
         <div>
           <h2 class="footer__title" data-i18n="footer.quickLinks">${esc(t("footer.quickLinks"))}</h2>
@@ -327,17 +350,20 @@
         <div>
           <h2 class="footer__title" data-i18n="footer.contact">${esc(t("footer.contact"))}</h2>
           <ul class="footer__contact">
-            <li>${icon("map-pin")}<span data-bind="clinic.address">${esc(content.clinic.address)}</span></li>
+            <li>${icon("map-pin")}<a data-link="map" href="#"><span data-bind="clinic.address">${esc(content.clinic.address)}</span></a></li>
             <li>${icon("phone")}<a data-link="phone" href="#"><span data-bind="clinic.phone">${esc(
       content.clinic.phone
     )}</span></a></li>
             <li>${icon("whatsapp", "icon--fill")}<a data-link="whatsapp" data-wa-message="contact.whatsapp.message" href="#"><span data-bind="clinic.whatsapp">${esc(
       content.clinic.whatsapp
     )}</span></a></li>
-            <li>${icon("mail")}<a data-link="email" href="#"><span data-bind="clinic.email">${esc(
-      content.clinic.email
-    )}</span></a></li>
+            ${content.clinic.email
+              ? `<li>${icon("mail")}<a data-link="email" href="#"><span data-bind="clinic.email">${esc(
+                  content.clinic.email
+                )}</span></a></li>`
+              : ""}
           </ul>
+          ${socialHTML()}
         </div>
         <div>
           <h2 class="footer__title" data-i18n="footer.hours">${esc(t("footer.hours"))}</h2>
@@ -349,14 +375,14 @@
         <p data-i18n="footer.copyright">${esc(t("footer.copyright"))}</p>
         <div class="footer__legal">
           <a href="privacy.html" data-i18n="nav.privacy">${esc(t("nav.privacy"))}</a>
-          <a href="https://8b.com/templates/pipit/" rel="noopener" target="_blank" data-i18n="footer.credit">${esc(
-            t("footer.credit")
-          )}</a>
+          <button type="button" class="footer__cookie" data-cookie-open>Cookie settings</button>
         </div>
       </div>
     </footer>`;
   }
 
+  /* Attribution: visual design based on the Pipit template by 8B (MIT licence,
+     https://8b.com/templates/pipit/). Full notice in CREDITS.md. */
   function renderChrome() {
     const headerSlot = $("#siteHeader");
     if (headerSlot) headerSlot.innerHTML = headerHTML();
@@ -366,7 +392,7 @@
     if (footerSlot) footerSlot.innerHTML = footerHTML();
     else document.body.insertAdjacentHTML("beforeend", `<div id="siteFooter">${footerHTML()}</div>`);
 
-    document.body.insertAdjacentHTML("beforeend", mobileNavHTML() + mobileBarHTML() + floatHTML());
+    document.body.insertAdjacentHTML("beforeend", mobileNavHTML() + mobileBarHTML() + waFloatHTML());
   }
 
   /* ------------------------------------------------------------------------
@@ -379,6 +405,10 @@
     });
     $$("[data-i18n-aria]").forEach((element) => {
       element.setAttribute("aria-label", t(element.dataset.i18nAria));
+    });
+    $$("[data-i18n-alt]").forEach((element) => {
+      const value = t(element.dataset.i18nAlt);
+      if (value != null) element.setAttribute("alt", value);
     });
   }
 
@@ -401,9 +431,20 @@
     }
   }
 
+  function clinicValue(key) {
+    const localized = content.clinicText && content.clinicText[lang];
+    if (localized && localized[key] != null) return localized[key];
+    return content.clinic ? content.clinic[key] : null;
+  }
+
+  function bindingValue(path) {
+    if (path.indexOf("clinic.") === 0) return clinicValue(path.slice(7));
+    return getPath(content, path);
+  }
+
   function applyBindings() {
     $$("[data-bind]").forEach((element) => {
-      const value = getPath(content, element.dataset.bind);
+      const value = bindingValue(element.dataset.bind);
       if (value != null) element.innerHTML = fmt(String(value));
     });
 
@@ -441,6 +482,17 @@
     applyLogo();
   }
 
+  /* The address stays out of the page until the clinic confirms it. Rows are
+     marked with data-email-row and hidden here, and reappear as soon as
+     clinic.email is filled in again. */
+  function syncEmailRows() {
+    const email = content.clinic && content.clinic.email;
+    const usable = Boolean(email) && !isPlaceholder(email);
+    $$("[data-email-row]").forEach((row) => {
+      row.hidden = !usable;
+    });
+  }
+
   function applyLogo() {
     const logo = content.clinic.logo;
     $$("[data-logo]").forEach((mark) => {
@@ -473,7 +525,47 @@
   }
 
   function serviceCard(service) {
-    return `<article class="card service-card reveal">
+    const name = langValue(service.name);
+    const shots = (service.photos || [])
+      .map((id) => (content.photos || []).find((photo) => photo.id === id))
+      .filter(Boolean);
+    const many = shots.length > 1;
+    const media = shots.length
+      ? `<div class="service-card__media svc-slides" data-svc-slides data-index="0">
+          ${shots
+            .map((photo, i) => {
+              const caption = langValue(photo.caption);
+              const thumb = esc(photo.thumb || photo.src);
+              return `<button type="button" class="svc-slides__item${i === 0 ? " is-active" : ""}" data-lb-src="${esc(
+                photo.src
+              )}" data-lb-caption="${esc(name)} · ${esc(caption)}" aria-label="${esc(t("gallery.open"))}: ${esc(
+                caption
+              )}"${i === 0 ? "" : ' tabindex="-1"'}>
+                <img ${i === 0 ? `src="${thumb}"` : `data-src="${thumb}"`} alt="${esc(
+                langValue(photo.alt) || caption
+              )}" width="640" height="427" decoding="async"${i === 0 ? ' loading="lazy"' : ""}>
+              </button>`;
+            })
+            .join("")}
+          ${
+            many
+              ? `<button type="button" class="svc-slides__nav svc-slides__nav--prev" data-svc-step="-1" aria-label="${esc(
+                  t("gallery.prev")
+                )}">${icon("arrow-right")}</button>
+          <button type="button" class="svc-slides__nav svc-slides__nav--next" data-svc-step="1" aria-label="${esc(
+            t("gallery.next")
+          )}">${icon("arrow-right")}</button>
+          <span class="svc-slides__dots" aria-hidden="true">${shots
+            .map((_, i) => `<i${i === 0 ? ' class="is-active"' : ""}></i>`)
+            .join("")}</span>`
+              : ""
+          }
+        </div>`
+      : `<div class="service-card__media service-card__media--icon" aria-hidden="true">${icon(
+          service.icon || "stethoscope"
+        )}</div>`;
+    return `<article class="card service-card service-card--photo reveal">
+      ${media}
       <span class="card__icon">${icon(service.icon || "stethoscope")}</span>
       <h3>${fmt(langValue(service.name))}</h3>
       <p>${fmt(langValue(service.desc))}</p>
@@ -495,7 +587,7 @@
     const photo = mediaHTML(
       person.photo,
       langValue(person.name),
-      "Staff portrait · 1:1",
+      t("common.staffPortrait"),
       "1x1"
     );
     return `<article class="card staff-card reveal">
@@ -521,19 +613,41 @@
 
   function renderGallery(target, photos, limit) {
     if (!target) return;
+    target.classList.add("gallery-grid");
     target.innerHTML = photos
       .slice(0, limit)
-      .map(
-        (photo) => `<figure class="gallery-card reveal">
-          <div class="media">${mediaHTML(
-            photo.src,
-            langValue(photo.alt) || langValue(photo.caption),
-            "Facility photo · 3:2",
-            "3x2"
-          )}</div>
-          <figcaption>${fmt(langValue(photo.caption))}</figcaption>
-        </figure>`
-      )
+      .map((photo) => {
+        const caption = langValue(photo.caption);
+        const alt = langValue(photo.alt) || caption;
+        return `<figure class="gallery-card reveal" data-cat="${esc(photo.category || "")}">
+          <button type="button" class="gallery-card__btn" data-lb-src="${esc(photo.src)}" data-lb-caption="${esc(
+          caption
+        )}" aria-label="${esc(t("gallery.open"))}: ${esc(caption)}">
+            <span class="media"><img src="${esc(photo.thumb || photo.src)}" alt="${esc(
+          alt
+        )}" width="640" height="427" loading="lazy" decoding="async"></span>
+            <span class="photo-zoom" aria-hidden="true">${icon("arrow-up-right")}</span>
+          </button>
+          <figcaption>${fmt(caption)}</figcaption>
+        </figure>`;
+      })
+      .join("");
+  }
+
+  function renderGalleryFilters(target, photos) {
+    if (!target) return;
+    const cats = ["building", "wards", "maternity", "lab"].filter((cat) =>
+      photos.some((photo) => photo.category === cat)
+    );
+    target.setAttribute("role", "group");
+    target.setAttribute("aria-label", t("gallery.filter"));
+    target.innerHTML = ["all"]
+      .concat(cats)
+      .map((cat) => {
+        return `<button type="button" class="gallery-filter" data-filter="${cat}" aria-pressed="${
+          cat === "all"
+        }">${esc(t("gallery." + cat))}</button>`;
+      })
       .join("");
   }
 
@@ -572,7 +686,7 @@
 
   function renderLists() {
     renderServices($("#homeServices"), 4);
-    renderServices($("#servicesGrid"), 6);
+    renderServices($("#servicesGrid"), 20);
     renderMiniCards($("#departmentsList"), content.departments || []);
     renderMiniCards($("#facilitiesList"), content.facilities || []);
 
@@ -601,13 +715,15 @@
       }
     }
 
-    const approvedPhotos = (content.photos || []).filter((photo) => photo.approved === true);
+    const approvedPhotos = (content.photos || []).filter(
+      (photo) => photo.approved === true && photo.gallery !== false
+    );
 
     const homeGallerySection = $("#galleryTeaser");
     if (homeGallerySection) {
       if (approvedPhotos.length) {
         homeGallerySection.hidden = false;
-        renderGallery($("#homeGallery"), approvedPhotos, 3);
+        renderGallery($("#homeGallery"), approvedPhotos, 6);
       } else {
         homeGallerySection.hidden = true;
       }
@@ -617,7 +733,8 @@
     if (aboutGallery) {
       if (approvedPhotos.length) {
         aboutGallery.hidden = false;
-        renderGallery(aboutGallery, approvedPhotos, 6);
+        renderGallery(aboutGallery, approvedPhotos, 40);
+        renderGalleryFilters($("#galleryFilters"), approvedPhotos);
       } else {
         aboutGallery.hidden = true;
       }
@@ -633,16 +750,22 @@
   function setupMap() {
     const map = $("#mapBlock");
     if (!map) return;
+    const embed = content.clinic.mapEmbed;
     const link = content.clinic.mapLink;
+    const src = !isPlaceholder(embed) && /^https:\/\//i.test(embed) ? embed : link;
     const isEmbed =
-      !isPlaceholder(link) && /^https:\/\/(www\.)?google\.[^/]+\/maps\/embed/i.test(link);
+      !isPlaceholder(src) && /^https:\/\/(www\.)?google\.[^/]+\/maps\/embed/i.test(src);
 
     if (isEmbed) {
       map.innerHTML = `<iframe src="${esc(
-        link
+        src
       )}" title="${esc(t("contact.map.title"))}" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>`;
+    } else if (!isPlaceholder(src)) {
+      map.innerHTML = `<a class="btn btn--primary" href="${esc(
+        src
+      )}" target="_blank" rel="noopener">${esc(t("common.directions"))}</a>`;
     } else {
-      map.innerHTML = placeholderHTML("Google Map · [MAP_LINK]", link, "wide");
+      map.innerHTML = placeholderHTML(t("common.location"), "MAP", "wide");
     }
   }
 
@@ -652,7 +775,12 @@
   function setupHeaderScroll() {
     const header = $(".site-header");
     if (!header) return;
-    const onScroll = () => header.classList.toggle("is-scrolled", window.scrollY > 8);
+    const isHome = document.body.dataset.page === "home";
+    const onScroll = () => {
+      const y = window.scrollY;
+      header.classList.toggle("is-scrolled", y > 8);
+      if (isHome) header.classList.toggle("is-pinned", y > 140);
+    };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
   }
@@ -748,7 +876,7 @@
 
     const base = content.site.baseUrl;
     if (!isPlaceholder(base) && /^https?:\/\//i.test(base)) {
-      const suffix = page === "home" ? "" : `${page}.html`;
+      const suffix = pageFile();
       const canonical = $('link[rel="canonical"]');
       if (canonical) canonical.setAttribute("href", `${base.replace(/\/$/, "")}/${suffix}`);
       const ogUrl = $('meta[property="og:url"]');
@@ -841,7 +969,7 @@
         const photo = mediaHTML(
           person.photo,
           langValue(person.name),
-          "Staff portrait · 1:1",
+          t("common.staffPortrait"),
           "1x1"
         );
         dialog.innerHTML = `<div class="staff-dialog__inner">
@@ -1005,12 +1133,6 @@
         return;
       }
 
-      const endpoint = content.site.enquiryEndpoint;
-      if (isPlaceholder(endpoint) || !/^https?:\/\//i.test(endpoint)) {
-        showFormStatus("info", t("appointment.form.notConfigured"));
-        return;
-      }
-
       const payload = {
         fullName: name.value.trim(),
         phone: phone.value.trim(),
@@ -1024,23 +1146,75 @@
         page: location.href
       };
 
+      const endpoint = content.site.enquiryEndpoint;
+      const hasEndpoint = isConfiguredEndpoint(endpoint);
+
+      // No form endpoint is configured, so the enquiry is handed to WhatsApp
+      // with the answers already filled in. The visitor still presses send in
+      // WhatsApp; nothing leaves the browser before that.
+      if (!hasEndpoint) {
+        const waNumber = digits(content.clinic.whatsapp).replace(/^0/, "255");
+        const lines = [
+          t("appointment.wa.intro"),
+          "",
+          `${t("appointment.form.name")}: ${payload.fullName}`,
+          `${t("appointment.form.phone")}: ${payload.phone}`,
+          `${t("appointment.form.service")}: ${payload.serviceLabel}`,
+          `${t("appointment.form.date")}: ${payload.preferredDate}${
+            payload.preferredTime ? ` ${payload.preferredTime}` : ""
+          }`
+        ];
+        if (payload.message) lines.push(`${t("appointment.form.message")}: ${payload.message}`);
+        const waLink = `https://wa.me/${waNumber}?text=${encodeURIComponent(lines.join("\n"))}`;
+        window.open(waLink, "_blank", "noopener");
+        showFormStatus("info", t("appointment.form.waReady"));
+        return;
+      }
+
       if (submit) {
         submit.disabled = true;
         submit.dataset.label = submit.innerHTML;
         submit.innerHTML = `${esc(t("appointment.form.sending"))}`;
       }
 
+      // Apps Script web apps reject a JSON content type because it triggers a
+      // CORS preflight. A text/plain POST is a "simple" request and is accepted.
+      const isAppsScript = /^https:\/\/script\.google\.com\//i.test(endpoint);
+
       try {
         const response = await fetch(endpoint, {
           method: "POST",
-          headers: { "Content-Type": "application/json", Accept: "application/json" },
+          mode: "cors",
+          redirect: "follow",
+          headers: isAppsScript
+            ? { "Content-Type": "text/plain;charset=utf-8", Accept: "application/json" }
+            : { "Content-Type": "application/json", Accept: "application/json" },
           body: JSON.stringify(payload)
         });
-        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+
+        // An opaque response cannot be inspected, but the request did reach the
+        // endpoint; treat it as delivered rather than showing a false error.
+        if (!(response.type === "opaque" || response.status === 0) && !response.ok) {
+          throw new Error(`HTTP ${response.status}`);
+        }
+
         localStorage.setItem("lupyana_enquiry_last", String(Date.now()));
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({
+          event: "enquiry_submitted",
+          enquiry_service: payload.service,
+          enquiry_language: payload.language
+        });
+        document.dispatchEvent(
+          new CustomEvent("lupyana:enquiry-submitted", { detail: payload })
+        );
+
         form.reset();
         if (date) date.min = todayISO();
         showFormStatus("success", t("appointment.form.success"));
+
+        // The dedicated page makes successful submissions easy to measure.
+        window.setTimeout(() => window.location.assign("thank-you.html"), 700);
       } catch (error) {
         showFormStatus("error", t("appointment.form.error"));
       } finally {
@@ -1082,6 +1256,34 @@
   }
 
   /* ------------------------------------------------------------------------
+     Photo fade-in
+     Runs as soon as this file executes, not after the content fetch, so an
+     above-the-fold photo never sits blank waiting for the JSON round trip.
+     ------------------------------------------------------------------------ */
+  function setupPhotoFade() {
+    const photos = $$(".photo-fade");
+    if (!photos.length) return;
+
+    if (reduceMotion || !("IntersectionObserver" in window)) {
+      photos.forEach((photo) => photo.classList.add("is-in"));
+      return;
+    }
+
+    const photoObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add("is-in");
+          photoObserver.unobserve(entry.target);
+        });
+      },
+      { rootMargin: "0px 0px -10% 0px", threshold: 0.1 }
+    );
+
+    photos.forEach((photo) => photoObserver.observe(photo));
+  }
+
+  /* ------------------------------------------------------------------------
      Init
      ------------------------------------------------------------------------ */
   async function init() {
@@ -1108,6 +1310,7 @@
     renderChrome();
     applyI18n();
     applyBindings();
+    syncEmailRows();
     renderLists();
     setupMap();
     updateMeta();
@@ -1121,6 +1324,8 @@
     setupActiveNav();
     refreshReveals();
   }
+
+  setupPhotoFade();
 
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", init);

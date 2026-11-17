@@ -1,10 +1,12 @@
 import http from "node:http";
 import fs from "node:fs";
+import os from "node:os";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const port = Number(process.env.PORT) || 4173;
+const host = process.env.HOST || "0.0.0.0";
 
 const types = {
   ".html": "text/html; charset=utf-8",
@@ -48,6 +50,15 @@ http
       response.end(data);
     });
   })
-  .listen(port, () => {
+  .listen(port, host, () => {
     console.log(`Lupyana Polyclinic preview: http://localhost:${port}`);
+
+    const addresses = Object.values(os.networkInterfaces())
+      .flat()
+      .filter((entry) => entry && (entry.family === "IPv4" || entry.family === 4) && !entry.internal)
+      .map((entry) => entry.address);
+
+    addresses.forEach((address) => {
+      console.log(`Open on a phone on the same Wi-Fi: http://${address}:${port}`);
+    });
   });

@@ -1,14 +1,39 @@
 # Lupyana Polyclinic — website
 
-A complete, static, multi-page website for **Lupyana Polyclinic** in Tanzania. It uses semantic HTML, one CSS design-system file and a small amount of vanilla JavaScript. There is no build step and no framework to maintain.
+A static, multi-page website for **Lupyana Polyclinic** in Vwawa, Mbozi, Songwe,
+Tanzania. Semantic HTML, one CSS design system, and a small amount of vanilla
+JavaScript. There is no build step, no framework, and no runtime dependency.
 
-The site is deliberately placeholder-first: every unconfirmed clinic detail is visibly marked (for example `[CLINIC_PHONE]` or `[SW: Home]`) and every editable string lives in **`content.json`**.
+Live address: **https://lupyana-polyclinic.vercel.app** (the free Vercel address, used as the canonical origin in every page, `sitemap.xml`, `robots.txt` and `site.baseUrl`). The clinic does not own a custom domain yet; when it does, replace this address everywhere with the new one (a find-and-replace on the full `https://…` string, then `npm run sync` and `npm run check`).
+
+All editable copy lives in **`content.json`**. `assets/js/content-data.js` is a
+generated mirror of the same data so the site also works when opened directly
+from disk (`file://`). The two files must stay in sync.
 
 ---
 
-## 1. Refined brief
+## 1. What the site does
 
-I kept the clinic name, the no-invented-content rule, and the primary actions (call, WhatsApp, directions, appointment enquiry). I assumed a static multi-page build instead of Next.js so the clinic can deploy anywhere, edit one JSON file and load quickly on weak mobile connections; the components map 1:1 to a Next.js or Figma structure. English is the source language; Swahili strings are marked `[SW: …]` until approved. Staff and gallery sections hide automatically until items are marked `approved: true`. The enquiry form is honest by default: it validates, but shows a success state only when a real endpoint is configured; otherwise it tells patients to call or WhatsApp. A phone/WhatsApp-only mode can replace the form entirely.
+- Publishes the clinic's real details, services, departments, facilities,
+  opening hours, location and contact routes.
+- Keeps **one** WhatsApp entry point site-wide: the header button. Every other
+  contact action is a phone call, directions, or the enquiry form.
+- Sends appointment enquiries by email through a Google Apps Script web app to
+  the clinic mailbox configured in `tools/apps-script/Code.gs`, then redirects to
+  `thank-you.html` so submissions can be measured.
+- Falls back to WhatsApp when no email endpoint is configured, so the form never
+  claims a request was received when it was not.
+- Shows an English/Swahili switch in the header and mobile menu, remembers the
+  choice in `localStorage`, and updates `<html lang>`.
+- Has a light/dark theme with a teal cookie-consent banner and a dotted texture
+  in both themes. A first visit opens in **light**; once a visitor switches, the
+  choice is saved in `localStorage` (`lupyana_theme`) and applied on every page.
+- Shows the clinic's own photographs: a hero slideshow, photo service cards, a
+  filterable gallery with a full-screen viewer (`assets/js/gallery.js`,
+  `assets/css/photos.css`), and a founder block on the About page. Photos live
+  in `assets/img/clinic/` and are listed under `photos` in `content.json`.
+- Hides Team and gallery content until real, consented names and approved photos
+  exist. No stock or invented people are shown.
 
 ---
 
@@ -16,50 +41,109 @@ I kept the clinic name, the no-invented-content rule, and the primary actions (c
 
 | Page | File | Purpose |
 |---|---|---|
-| Home | `index.html` | Hero, quick info, services, about, team, gallery, contact, emergency, CTA |
-| About Lupyana | `about.html` | History, mission, values, key facts, facilities/gallery |
+| Home | `index.html` | Hero, quick info, services, About teaser, contact, emergency, CTA |
+| About | `about.html` | Background, mission, values, key facts, facilities, contact panel |
 | Medical Services | `services.html` | Services grid, departments, laboratory/diagnostics, facilities, hours |
-| Doctors & Team | `team.html` | Consent-gated profiles with accessible detail dialog |
-| Contact & Location | `contact.html` | Phone, WhatsApp, email, address, hours, preferred contact, map |
-| Appointment Enquiry | `appointment.html` | Validated form, consent, honeypot, rate limit, phone-only mode |
-| Privacy & Terms | `privacy.html` | Plain-language draft for legal review |
+| Contact & Location | `contact.html` | Phone, WhatsApp, email, address, hours, map |
+| Appointment Enquiry | `appointment.html` | Validated form, consent, honeypot, local rate limit |
+| Privacy & Terms | `privacy.html` | How the site handles enquiries, plus terms of use |
+| Thank you | `thank-you.html` | Post-submit confirmation, `noindex, nofollow` |
 | 404 | `404.html` | Not-found page with recovery links |
+
+`_paused/team.html` is kept for later but is **not published or linked**. Move it
+back to the root only when staff profiles have written consent.
 
 ---
 
-## 3. Pages and components
+## 3. Components
 
-**Pages:** Home, About, Services, Team, Contact, Appointment, Privacy, 404.
+Rendered by `assets/js/main.js`:
 
-**Reusable components (rendered by `assets/js/main.js`):**
-
-- `Header` — top bar, supplied logo mark + Bricolage wordmark, primary nav, language switcher, Call, WhatsApp, menu button
-- `MobileNav` — full-screen menu, large tap targets, contact actions, language switcher
-- `MobileActionBar` — sticky Call / WhatsApp / Directions bar
-- `FloatingWhatsApp` — always-available WhatsApp button
-- `Footer` — clinic summary, quick links, contact details, hours, language switcher, legal links
-- `Hero` — clinic name, tagline, intro, primary/secondary CTAs, 16:9 placeholder
-- `QuickInfoStrip` — hours, phone, location cards
-- `SectionHeader` — eyebrow, heading, lead, optional action
-- `ServiceCard` — icon, name, description, department, enquire link
-- `StaffCard` + `StaffDialog` — portrait, name, title, field, qualifications, consent-gated profile
-- `GalleryCard` — 3:2 approved photo, caption
-- `MiniCard` — department or facility
-- `ContactBlock` — labelled phone, WhatsApp, email, address, hours, preferred contact
-- `MapBlock` — Google Maps embed when a real embed URL exists, otherwise a labelled placeholder
-- `EmergencyBox` — warm, high-visibility instructions panel
-- `CTABand` — final call / WhatsApp / appointment band
-- `EnquiryForm` — fields, notice, consent, honeypot, validation, status states
-- `PlaceholderBlock` — labelled 16:9, 4:3, 3:2 and 1:1 image slots
-- `Token` — the dashed, monospace marker around every unconfirmed value
+- `Header` — brand, primary nav (Home, About, Services, Contact, Book / Enquire),
+  language switch, Call, the single WhatsApp button, menu button
+- `MobileNav` — full-screen menu, large tap targets, contact actions, language switch
+- `MobileActionBar` — sticky Call / Directions bar
+- `Footer` — clinic summary, quick links, contact details, hours, legal links
+- `Hero`, `QuickInfoStrip`, `SectionHeader`
+- `ServiceCard`, `GalleryCard`, `MiniCard`
+- `StaffCard` + `StaffDialog` — consent-gated; unused while `staff` is empty
+- `ContactBlock`, `MapBlock`, `EmergencyBox`, `CTABand`
+- `EnquiryForm` — fields, notice, consent, honeypot, status states
 - `Toast` — explains that a contact detail is awaiting approval
-- `Breadcrumbs` — page context and keyboard-friendly navigation
+- `Breadcrumbs`
+
+### Opening ident
+
+`assets/css/intro.css` and `assets/js/intro.js` mount a centred brand animation
+that follows the clinic's motion sample (`Lupyana.mp4`): a deep navy stage
+(`#141b30`) with a teal bloom in the bottom-right corner and a quieter blue
+bloom in the top-left, the real logo artwork rendered white.
+
+The artwork is not redrawn: `assets/img/logo.png` is split into six transparent
+layers (`assets/img/intro/`), and the white treatment is a CSS filter on those
+layers. The layers are plain images positioned as percentages of a 380 × 409
+box, so the lockup and its motion are identical at every screen size. The loader
+is an HTML square centred on the heart, and every rotation and scale happens on
+an HTML box rather than an SVG child — which keeps the loop centred correctly on
+mobile browsers. It plays on the first page a visitor opens in a browser
+session, then stays out of the way on internal navigation. It is intentionally
+not added to `thank-you.html` or `404.html`.
+
+The sequence (times from the moment the layer images decode):
+
+1. **Loader** — a white arc sweeps a full turn (820ms), rotating -20° to 120°,
+   then collapses into the heart (640ms, 300ms).
+2. **Heart** — the ink line art forms from the loader's centre (620ms, 520ms),
+   scaling up from 88%.
+3. **Figures** — the orange hand and the green and blue figures rise 18px into
+   place in quick succession (840ms, 910ms, 980ms; 420ms each).
+4. **Wordmark** — "LUPYANA POLYCLINIC" locks in from the left (1080ms, 540ms).
+5. **Two beats** — the emblem pulses twice (1760ms, 640ms), with a faint ring
+   leaving the heart on each beat (1780ms and 2080ms, 460ms).
+
+The last animation finishes at 2540ms and the completed lockup — identical to
+the static logo — is held until 2600ms. Exit is a 460ms fade with a slight
+upward drift, so worst-case teardown is about 3.4s after the page starts.
+
+- `?intro=1` replays it; `?intro=0` suppresses it.
+- The overlay is `aria-hidden` and removes itself when it finishes.
+- Under `prefers-reduced-motion: reduce` the loader and pulses are not shown at
+  all; the finished lockup is displayed still for 1400ms, then the overlay is
+  removed without animation.
+- An inline gate in each page head hides the page for the duration and has a
+  3.6-second failsafe, so a missing script can never leave the page blank.
+- Session key: `lupyana_intro_seen`. A `lupyana:intro-finished` event fires when
+  the overlay leaves, for future analytics.
+
+### Photography
+
+The two editorial photos (`new-wing-entrance.jpg` on the home page,
+`reception.jpg` on About) share the same `.about-photo` 16:10 frame, so
+they render at an identical size at every breakpoint. Both:
+
+- fade in the first time they enter the viewport (700ms opacity, 480ms rise),
+  driven by an `IntersectionObserver` in `setupPhotoFade()`;
+- zoom to 1.02 with a deeper shadow on hover, only on precise pointers;
+- stay visible without JavaScript, because the hidden state is gated on
+  `@media (scripting: enabled)`;
+- print at full opacity even if they were never scrolled into view;
+- drop the motion under `prefers-reduced-motion: reduce`.
+
+### Contact details
+
+`clinic.email` is currently filled in, so email rows are shown on the site. If
+the clinic asks for the address to be withheld, set `clinic.email` and
+`enquiryEmail` to empty strings: contact rows carry `data-email-row` and
+`syncEmailRows()` hides them, and the footer email item is only rendered when an
+address exists. Filling the address back in restores every row. Confirm in
+writing that the clinic wants this address public.
+
 
 ---
 
 ## 4. Design tokens
 
-Tokens live in one place: `assets/css/styles.css`, in `:root`.
+Tokens live in `assets/css/styles.css` under `:root`.
 
 ### Colour
 
@@ -72,8 +156,6 @@ Tokens live in one place: `assets/css/styles.css`, in `:root`.
 | `--c-primary-100` | `#DCEFEC` | Tints |
 | `--c-primary-50` | `#F0F8F6` | Section and card tints |
 | `--c-secondary` | `#123B5D` | Reserved secondary blue |
-| `--c-accent` | `#E9A23B` | Warm CTA and emergency accent |
-| `--c-accent-soft` | `#FDF2DF` | Emergency/notice backgrounds |
 | `--c-text` | `#0F2A2A` | Body and headings |
 | `--c-muted` | `#4B6363` | Secondary text (AA on white and surface) |
 | `--c-border` | `#D6E4E1` | Hairlines |
@@ -83,14 +165,21 @@ Tokens live in one place: `assets/css/styles.css`, in `:root`.
 | `--c-success` | `#1F7A4D` | Success status |
 | `--c-danger` | `#B3261E` | Errors |
 
-To apply the clinic's brand colours, change these variables only. Keep body text at 4.5:1 contrast or better.
+Buttons are green and pill-shaped throughout. The warm accent tokens are kept
+only for legacy surfaces such as the noscript notice; there are no amber or
+yellow controls.
+
+To apply the clinic's brand colours, change these variables only. Keep body text
+at 4.5:1 contrast or better.
 
 ### Type
 
 Two families, both from Google Fonts with system fallbacks:
 
-- **Bricolage Grotesque** — SemiBold 600 / Bold 700. Used for H1–H3, service titles, section headings and the Lupyana wordmark. Set in `--font-display`.
-- **Onest** — Regular 400 / Medium 500 / SemiBold 600. Used for body copy, navigation, labels, buttons, forms and captions. Set in `--font-sans`.
+- **Bricolage Grotesque** — SemiBold 600 / Bold 700. H1–H3, service titles,
+  section headings and the Lupyana wordmark (`--font-display`).
+- **Onest** — Regular 400 / Medium 500 / SemiBold 600. Body copy, navigation,
+  labels, buttons, forms and captions (`--font-sans`).
 
 | Token | Size | Use |
 |---|---|---|
@@ -102,14 +191,14 @@ Two families, both from Google Fonts with system fallbacks:
 | `--fs-sm` | `0.9375rem` | Supporting text |
 | `--fs-xs` | `0.8125rem` | Captions, labels |
 
-H1/H2 use Bricolage Grotesque 700 with `-0.025em` tracking; H3 and card titles use 600. Body line-height is 1.65.
-
 ### Spacing, radius, shadow
 
-- Spacing: `0.25, 0.5, 0.75, 1, 1.25, 1.5, 2, 2.5, 3, 4, 5, 6rem` (`--space-1` … `--space-24`)
+- Spacing: `0.25, 0.5, 0.75, 1, 1.25, 1.5, 2, 2.5, 3, 4, 5, 6rem`
+  (`--space-1` … `--space-24`)
 - Radius: `12px` small, `18px` medium, `26px` large, `34px` extra large, `999px` pill
-- Shadow: `--shadow-sm`, `--shadow-md`, `--shadow-lg` (all soft teal-tinted)
-- Container: `1180px`; gutters `clamp(1rem, 3vw, 2rem)`; header `74px` desktop / `66px` mobile; bottom bar `66px`
+- Shadow: `--shadow-sm`, `--shadow-md`, `--shadow-lg` (soft teal-tinted)
+- Container: `1180px`; gutters `clamp(1rem, 3vw, 2rem)`; header `74px` desktop /
+  `66px` mobile; mobile action bar `66px`
 
 ---
 
@@ -123,6 +212,20 @@ npm run serve
 # open http://localhost:4173
 ```
 
+The preview server binds to all interfaces (`0.0.0.0:4173`) and prints one URL
+per local IPv4 address. To check the site on a phone, put the phone on the same
+Wi-Fi and open the printed `http://<lan-ip>:4173` address, for example
+`http://192.168.1.6:4173`.
+
+- Set `PORT` to change the port and `HOST` to bind a single interface
+  (`HOST=127.0.0.1 npm run serve`).
+- On Windows the first launch usually raises a Defender Firewall prompt for
+  Node.js. If the phone cannot connect, allow Node.js on **Private** networks,
+  or add an inbound rule for TCP 4173 from an elevated PowerShell:
+  `New-NetFirewallRule -DisplayName "Lupyana preview" -Direction Inbound -Protocol TCP -LocalPort 4173 -Action Allow`.
+- The phone and the computer must be on the same network, and the network must
+  not have client isolation enabled (common on guest Wi-Fi).
+
 Equivalent options:
 
 ```bash
@@ -131,74 +234,77 @@ npx serve .
 python -m http.server 4173
 ```
 
-> Opening `index.html` directly from disk also works because `assets/js/content-data.js` is a generated fallback copy of `content.json`. For the live site, always serve over HTTP so `content.json` is fetched as the single source of truth.
+> Opening `index.html` directly from disk also works because
+> `assets/js/content-data.js` mirrors `content.json`. For the live site, always
+> serve over HTTP so `content.json` is the single source of truth.
 
 ### Editing content
 
 1. Edit **`content.json`** (clinic details, services, staff, photos, EN/SW strings).
-2. Run **`npm run sync`** to regenerate `assets/js/content-data.js` and fill any missing `[SW: …]` placeholders.
-3. Refresh the browser.
+2. Run **`npm run sync`** to regenerate `assets/js/content-data.js` and fill any
+   missing Swahili string with a marked `[SW: …]` value.
+3. Run **`npm run check`**. It writes nothing and exits with an error if
+   `content-data.js` has drifted from `content.json`, an image referenced in the
+   content is missing, or a UI string has no Swahili. It also warns about
+   leftover `[SW: …]` placeholders and an unset enquiry endpoint. Run it before
+   every deploy (it can be wired into CI or a git pre-commit hook).
+4. Refresh the browser.
 
 ### Deploying
 
-Upload the whole folder to any static host (Netlify, Vercel, Cloudflare Pages, GitHub Pages, cPanel, S3). Then:
+Upload the site files to any static host (Netlify, Vercel, Cloudflare Pages,
+GitHub Pages, cPanel, S3). Leave the `tools/` folder, `README.md`, `CREDITS.md`
+and `_paused/` out of the upload — they are development material, not part of the
+published site.
 
-- Replace `[SITE_URL]` in every HTML file and `sitemap.xml`. In `robots.txt`, replace `[SITE_URL]` and uncomment the `Sitemap:` line (a sitemap URL must be absolute).
+- Keep one canonical origin (currently `https://lupyana-polyclinic.vercel.app`).
+  When a custom domain is added, switch to it everywhere and do not add `www`
+  unless you also redirect it.
 - Configure the host to serve `404.html` for unknown paths.
-- Set `site.baseUrl` in `content.json` to the live URL (canonical and `og:url` update automatically).
-- Replace `site.ogImage` and the `og:image` / `twitter:image` tags with an **absolute** URL to an approved 1200×630 image.
-- Connect the form endpoint (below) or set `site.enquiryMode` to `"phone"`.
+- `site.baseUrl` in `content.json` is already the live origin; canonical and
+  `og:url` tags are absolute in every page.
+- OG/Twitter images are absolute URLs to `assets/img/og-image.png` (1200×630).
+- Deploy the enquiry endpoint (section 6) and paste the `/exec` URL into both
+  content files.
+
+### After launch
+
+1. Submit `https://lupyana-polyclinic.vercel.app/sitemap.xml` in **Google Search
+   Console** for the clinic's property. `robots.txt` already points at it and
+   disallows `/404.html` and `/thank-you.html`.
+2. Use the Search Console URL Inspection tool on the home page and request
+   indexing. Repeat for About and Services if they are not picked up.
+3. Ask a fluent Swahili speaker to review the `sw` strings before treating them
+   as final.
 
 ---
 
-## 6. How to replace placeholders
+## 6. Enquiry form — Google Apps Script
 
-All editable content is in `content.json`.
+The appointment form posts to a Google Apps Script web app that emails each
+enquiry to the clinic mailbox. Full click-by-click instructions are in
+[`tools/apps-script/README.md`](tools/apps-script/README.md).
 
-### Clinic details (`clinic`)
+Summary:
 
-| Key | Replace with |
-|---|---|
-| `name` | Approved clinic name (already set to Lupyana Polyclinic) |
-| `tagline` | `[TAGLINE]` → approved one-line welcome |
-| `intro` | `[CLINIC_INTRO]` → approved short introduction |
-| `history` | `[HISTORY]` → approved background |
-| `mission`, `values` | `[MISSION]`, `[VALUES]` |
-| `keyFacts` | `[KEY_FACTS]` → confirmed facts only |
-| `address`, `ward`, `district`, `region` | `[ADDRESS]`, `[WARD]`, `[DISTRICT]`, `[REGION]` |
-| `locationLine` | Short location line for the hero eyebrow |
-| `phone`, `phoneAlt` | `[CLINIC_PHONE]`, `[CLINIC_PHONE_2]` |
-| `whatsapp` | `[WHATSAPP_NUMBER]` (international format, digits only is fine) |
-| `email`, `enquiryEmail` | `[CLINIC_EMAIL]`, `[ENQUIRY_EMAIL]` |
-| `preferredContact` | `[PREFERRED_CONTACT]` |
-| `hours` | `[HOURS]` |
-| `emergency` | `[EMERGENCY_INSTRUCTIONS]` |
-| `mapLink` | `[MAP_LINK]` — use a Google Maps **embed** URL to show the map |
-| `logo` | Supplied logo mark, already set to `assets/img/logo-mark.png` (header). The full lockup is `assets/img/logo.png` (footer). |
-| `brandColours` | `[BRAND_COLOURS]` — documentation value; actual colours are CSS tokens |
-| `serviceList`, `departments`, `facilities`, `labServices`, `staffList`, `photos` | Section-level placeholder labels |
+1. In the clinic's Google account, create a project at <https://script.google.com>
+   and paste [`tools/apps-script/Code.gs`](tools/apps-script/Code.gs).
+2. Deploy as a **Web app**: execute as **Me**, access **Anyone**.
+3. Authorise the script, copy the `/exec` URL, and paste it into **both**:
+   - `content.json` → `site.enquiryEndpoint`
+   - `assets/js/content-data.js` → `site.enquiryEndpoint`
+4. Send a test enquiry. The clinic receives the email and the visitor lands on
+   `thank-you.html`.
 
-### Services (`services`)
+Until the endpoint is set, the form opens WhatsApp with the answers already
+filled in and tells the visitor to press send there. This is the safe fallback,
+not a fake success state.
 
-Each item has `id`, `icon`, and `{ en, sw }` values for `name`, `desc` and `department`. Replace the `[SERVICE_NAME_n]`, `[SERVICE_DESC_n]` and `[DEPARTMENT_n]` placeholders. Add or remove items freely; the home page shows the first four, the services page shows all six.
+The Apps Script POST uses `Content-Type: text/plain;charset=utf-8` because a
+JSON content type triggers a CORS preflight that Apps Script rejects. The script
+returns JSON; the site treats an opaque response as delivered.
 
-### Staff (`staff`)
-
-Profiles are **hidden unless `approved` is `true`**. Only set this after written consent. Fill `name`, `title`, `field`, `bio`, `qualifications` and `photo` (a 1:1 image path under `assets/img/`). The home teaser and team page update automatically.
-
-### Photos (`photos`)
-
-Set `approved: true` only for photos the clinic has approved. Add `src` (3:2 image path), `alt` and `caption`. The gallery sections hide automatically when no photo is approved.
-
-### Contact and map
-
-- Phone and WhatsApp links are generated only when the value is real. Until then they show a toast instead of dialling a placeholder.
-- A Google Maps iframe is injected only when `mapLink` starts with a Google Maps **embed** URL. Otherwise a labelled placeholder is shown.
-- The WhatsApp links use the prefilled message `contact.whatsapp.message`.
-
-### Enquiry form endpoint
-
-Set `site.enquiryEndpoint` to an HTTPS endpoint (Formspree, Netlify Function, Vercel Function, your own API). The form POSTs JSON:
+Payload shape:
 
 ```json
 {
@@ -215,46 +321,63 @@ Set `site.enquiryEndpoint` to an HTTPS endpoint (Formspree, Netlify Function, Ve
 }
 ```
 
-The endpoint should return a 2xx status. The server must validate, rate-limit, send to `[ENQUIRY_EMAIL]` and avoid storing sensitive health data. The client includes a honeypot (`company`) and a 2-minute local rate limit; neither replaces server-side protection.
+Client-side protections: required fields, a consent checkbox, a hidden
+`company` honeypot, a 2-minute `localStorage` rate limit, and a date that cannot
+be in the past. Server-side protections in `Code.gs`: validation, a 60-second
+per-phone throttle, length limits, and HTML escaping before the email is built.
+Neither side replaces the other.
 
-If the clinic prefers phone/WhatsApp only, set:
+If the clinic ever wants phone/WhatsApp only, set `site.enquiryMode` to
+`"phone"`. The form is replaced by a call/WhatsApp panel.
 
-```json
-"enquiryMode": "phone"
-```
+### Staff and photos
 
-The form is hidden and a call/WhatsApp panel is shown instead.
+`staff` is intentionally `[]`. `photos` holds the clinic's own photographs, all
+marked `approved: true`. Items render only when `approved: true`, and Team stays
+unpublished until each person gives written consent. Do not add stock photos of people; use only clinic-approved images.
 
 ### Swahili
 
-Every UI string and every structured item has an `en` and `sw` value. Swahili values are `[SW: …]` placeholders until the clinic approves translations. Do not machine-translate medical or service content as final. `npm run sync` fills any missing Swahili key with a marked placeholder.
-
-### Site URL and social image
-
-- Replace `[SITE_URL]` in HTML meta tags, JSON-LD and `sitemap.xml`; then uncomment the `Sitemap:` line in `robots.txt`.
-- `assets/img/og-image.png` is the supplied 1200×630 share card. Replace it only if the clinic supplies a new one, and update `site.ogImage` plus the meta tags.
+Every UI string has an `en` and `sw` value. `npm run sync` fills missing Swahili
+keys with a marked `[SW: …]` placeholder. Do not machine-translate medical or
+service content as final. A fluent speaker should review the copy.
 
 ---
 
 ## 7. Form, privacy and safety notes
 
-- The form never asks for medical history, diagnosis, prescriptions or patient records.
-- A notice above the form tells patients not to include sensitive health information.
+- The form never asks for medical history, diagnosis, prescriptions or patient
+  records. A notice above it says so.
 - Consent is required before submission.
-- The success message is exactly: **“Thank you. The clinic will contact you using the details provided.”**
-- If no endpoint is configured, the form **does not pretend to send**. It says the form is not connected and asks the patient to call or WhatsApp.
-- No analytics, cookies, tracking pixels or patient records are included.
-- The privacy page is a draft for the clinic's legal adviser; it must be reviewed before launch.
+- Success copy is **“Thank you. The clinic will contact you using the details
+  provided.”** The visitor is then redirected to `thank-you.html`.
+- With no endpoint configured, the form hands the enquiry to WhatsApp and says
+  so plainly. It never pretends an email was sent.
+- The site sets no analytics, tracking pixels or advertising cookies. The cookie
+  banner records the visitor's choice in `localStorage`.
+- `privacy.html` is written from the site's actual behaviour: what the form
+  collects, that Google Apps Script delivers it to the clinic's Gmail mailbox,
+  how long it is kept, and how to ask for correction or deletion. It is not a
+  substitute for the clinic's patient-records policy, and legal review is still
+  advisable.
 
 ---
 
 ## 8. SEO and accessibility
 
-- Unique `<title>`, meta description, canonical and Open Graph/Twitter tags on every page.
-- `MedicalClinic` JSON-LD on the home page, with `WebPage`/`AboutPage`/`ContactPage` schema on the other pages.
-- `sitemap.xml` with EN/SW alternates, `robots.txt`, semantic landmarks, skip link, visible focus states, 44px+ tap targets, labelled form fields, `aria-live` status messages, keyboard-operable menu and dialog, and reduced-motion support.
-- Staff and gallery sections are removed from the visual page until approved, so the site never shows unconsented people or photos.
-- Placeholder values are styled with a dashed amber token so they cannot be mistaken for approved content.
+- Unique `<title>`, meta description, canonical and Open Graph/Twitter tags on
+  every published page.
+- `MedicalClinic` JSON-LD on the home page, with `WebPage`/`AboutPage`/
+  `ContactPage` schema on the other pages.
+- `sitemap.xml` with EN/SW alternates and an entry for About; `robots.txt` with
+  a live `Sitemap:` line and disallows for `404.html` and `thank-you.html`.
+- Semantic landmarks, skip link, visible focus states, 44px+ tap targets,
+  labelled form fields, `aria-live` status messages, keyboard-operable menu and
+  dialog, and reduced-motion support.
+- Team and gallery sections stay hidden until approved content exists, so the
+  site never shows unconsented people or photos.
+- The visible duplicate WhatsApp button was removed; the header button is the
+  single WhatsApp entry point on every page.
 
 ---
 
@@ -262,121 +385,80 @@ Every UI string and every structured item has an `en` and `sw` value. Swahili va
 
 ### Frames (per page)
 
-Create three frames for each of the eight pages:
+Create three frames for each published page:
 
 - **Desktop 1440** — 1180px container, 24px gutters, sticky 74px header
 - **Tablet 768** — 2-column card grids, mobile action bar visible, 66px header
-- **Mobile 390** — single column, stacked hero actions, 66px bottom bar + floating WhatsApp
+- **Mobile 390** — single column, stacked hero actions, 66px bottom bar
 
-Pages: Home, About, Services, Team, Contact, Appointment, Privacy, 404.
+Pages: Home, About, Services, Contact, Appointment, Privacy, Thank you, 404.
 
 ### Components to create
 
-`Header/Default`, `Header/Scrolled`, `Nav/Link/Default`, `Nav/Link/Active`, `LanguageSwitcher`, `Button/Primary`, `Button/Ghost`, `Button/Accent`, `Button/White`, `Button/OutlineWhite`, `Button/Small`, `Hero`, `QuickInfoCard`, `SectionHeader`, `ServiceCard`, `StaffCard`, `StaffDialog`, `GalleryCard`, `MiniCard`, `ContactRow`, `MapBlock`, `EmergencyBox`, `CTABand`, `Form/Field`, `Form/Select`, `Form/Textarea`, `Form/Checkbox`, `Form/Status/Success`, `Form/Status/Error`, `Form/Status/Info`, `Footer`, `FloatingWhatsApp`, `MobileActionBar`, `Placeholder/16x9`, `Placeholder/4x3`, `Placeholder/3x2`, `Placeholder/1x1`, `Token`.
+`Header/Default`, `Header/Scrolled`, `Nav/Link/Default`, `Nav/Link/Active`,
+`LanguageSwitcher`, `Button/Primary`, `Button/Ghost`, `Button/OutlineWhite`,
+`Button/Small`, `Hero`, `QuickInfoCard`, `SectionHeader`, `ServiceCard`,
+`StaffCard`, `StaffDialog`, `GalleryCard`, `MiniCard`, `ContactRow`, `MapBlock`,
+`EmergencyBox`, `CTABand`, `Form/Field`, `Form/Select`, `Form/Textarea`,
+`Form/Checkbox`, `Form/Status/Success`, `Form/Status/Error`, `Form/Status/Info`,
+`Footer`, `MobileActionBar`, `CookieBanner`.
 
 ### Figma variables to recreate
 
-- Colour: `primary`, `primary-700`, `primary-800`, `primary-200`, `primary-100`, `primary-50`, `secondary`, `accent`, `accent-soft`, `text`, `muted`, `border`, `border-strong`, `surface`, `surface-2`, `success`, `danger`
+- Colour: `primary`, `primary-700`, `primary-800`, `primary-200`, `primary-100`,
+  `primary-50`, `secondary`, `text`, `muted`, `border`, `border-strong`,
+  `surface`, `surface-2`, `success`, `danger`
 - Radius: `sm 12`, `md 18`, `lg 26`, `xl 34`, `pill 999`
 - Spacing: `4, 8, 12, 16, 20, 24, 32, 40, 48, 64, 80, 96`
 - Shadow: `sm`, `md`, `lg`
 - Type: `display`, `h2`, `h3`, `lead`, `body`, `sm`, `xs`
-- Font families: `Bricolage Grotesque` (600 SemiBold / 700 Bold — headings and wordmark), `Onest` (400 / 500 / 600 — body and UI)
-- Layout: `container 1180`, `gutter 24`, `header 74`, `mobile-header 66`, `bottom-bar 66`
+- Font families: `Bricolage Grotesque` (600 / 700 — headings and wordmark),
+  `Onest` (400 / 500 / 600 — body and UI)
+- Layout: `container 1180`, `gutter 24`, `header 74`, `mobile-header 66`,
+  `bottom-bar 66`
 
 ### Prototype notes
 
 - Language switch updates all strings and the `<html lang>` attribute.
 - Mobile menu opens as a full-screen overlay with focus trapping and Escape to close.
-- Staff cards open an accessible `<dialog>`.
-- Form states: default, field error, consent error, sending, success, error, not-configured, rate-limited.
-- Placeholder blocks are labelled with their aspect ratio and token.
+- Form states: default, field error, consent error, sending, success, error,
+  not-configured, rate-limited, WhatsApp fallback.
+- Cookie banner appears on first visit and is dismissed with **Accept** or
+  **Decline**.
 
 ---
 
-## 10. Content checklist — waiting on the clinic
+## 10. Still waiting on the clinic
 
-### Clinic identity and contact
-- [ ] `[TAGLINE]`
-- [ ] `[CLINIC_INTRO]`
-- [ ] `[HISTORY]`
-- [ ] `[MISSION]`
-- [ ] `[VALUES]`
-- [ ] `[KEY_FACTS]`
-- [ ] `[ADDRESS]`
-- [ ] `[WARD]`
-- [ ] `[DISTRICT]`
-- [ ] `[REGION]`
-- [ ] `[MAP_LINK]` (Google Maps embed URL)
-- [ ] `[CLINIC_PHONE]`
-- [ ] `[CLINIC_PHONE_2]`
-- [ ] `[WHATSAPP_NUMBER]`
-- [ ] `[CLINIC_EMAIL]`
-- [ ] `[ENQUIRY_EMAIL]`
-- [ ] `[PREFERRED_CONTACT]`
-- [ ] `[HOURS]`
-- [ ] `[EMERGENCY_INSTRUCTIONS]`
-- [x] `[CLINIC_LOGO]` — supplied; integrated as `assets/img/logo.png`, `logo-mark.png`, favicons and `og-image.png`
-- [ ] `[BRAND_COLOURS]`
-- [ ] `[SITE_URL]`
-- [x] `[OG_IMAGE]` — supplied as `assets/img/og-image.png` (1200×630)
-
-### Services and facilities
-- [ ] `[SERVICE_LIST]`
-- [ ] `[SERVICE_NAME_1]` … `[SERVICE_NAME_6]`
-- [ ] `[SERVICE_DESC_1]` … `[SERVICE_DESC_6]`
-- [ ] `[DEPARTMENT_1]` … `[DEPARTMENT_6]`
-- [ ] `[DEPARTMENTS]`
-- [ ] `[DEPARTMENT_NAME_1]` … `[DEPARTMENT_NAME_4]`
-- [ ] `[DEPARTMENT_DESC_1]` … `[DEPARTMENT_DESC_4]`
-- [ ] `[LAB_SERVICES]`
-- [ ] `[FACILITIES]`
-- [ ] `[FACILITY_NAME_1]` … `[FACILITY_NAME_4]`
-- [ ] `[FACILITY_DESC_1]` … `[FACILITY_DESC_4]`
-
-### Staff (written consent required)
-- [ ] `[STAFF_LIST]`
-- [ ] `[DOCTOR_NAME_1]` … `[DOCTOR_NAME_4]`
-- [ ] `[DOCTOR_TITLE_1]` … `[DOCTOR_TITLE_4]`
-- [ ] `[DOCTOR_FIELD_1]` … `[DOCTOR_FIELD_4]`
-- [ ] `[DOCTOR_BIO_1]` … `[DOCTOR_BIO_4]`
-- [ ] `[QUALIFICATIONS_1]` … `[QUALIFICATIONS_4]`
-- [ ] `[DOCTOR_PHOTO_1]` … `[DOCTOR_PHOTO_4]`
-- [ ] `approved: true` for each consented profile
-
-### Photos
-- [ ] `[PHOTOS]`
-- [ ] `[PHOTO_HERO]` (16:9)
-- [ ] `[PHOTO_ABOUT]` (4:3)
-- [ ] `[PHOTO_1]` … `[PHOTO_4]` (3:2)
-- [ ] `[PHOTO_CAPTION_1]` … `[PHOTO_CAPTION_4]`
-- [ ] `[PHOTO_ALT_1]` … `[PHOTO_ALT_4]`
-- [ ] `approved: true` for each approved photo
-
-### Legal and form
-- [ ] `[PRIVACY_WHAT_WE_COLLECT]`
-- [ ] `[PRIVACY_WHO_RECEIVES]`
-- [ ] `[PRIVACY_RETENTION]`
-- [ ] `[PRIVACY_RIGHTS]`
-- [ ] `[PRIVACY_CONTACT]`
-- [ ] `[TERMS_PLACEHOLDER]`
-- [ ] Legal review of the privacy and terms page
-- [ ] `[ENQUIRY_ENDPOINT]` or a decision to use phone/WhatsApp-only mode
-
-### Language
-- [ ] All `[SW: …]` strings reviewed and approved by a fluent speaker
+- [ ] Confirm in writing that the email address now in `clinic.email` may be
+      shown publicly.
+- [ ] Deploy `tools/apps-script/Code.gs` and paste the `/exec` URL into both
+      content files.
+- [ ] Submit `sitemap.xml` in Google Search Console.
+- [ ] Written consent for staff names, titles, bios and photos before Team is
+      published (the paused page is in `_paused/team.html`).
+- [ ] Clinic-approved facility photos before the gallery sections are shown.
+- [ ] Fluent Swahili review of the `sw` copy.
+- [ ] Clinic legal adviser review of `privacy.html`.
 
 ---
 
 ## 11. Known limits
 
-- This is a static site, not a CMS. A non-technical editor changes `content.json`; `npm run sync` keeps the offline fallback current.
-- The enquiry form does not send until `enquiryEndpoint` is configured. This is intentional so the site never implies a request was received when it was not.
-- The map only appears when a Google Maps embed URL is supplied.
-- Swahili uses one dictionary and a `?lang=sw` query parameter (persisted in `localStorage`) rather than separate `/sw/` routes. `sitemap.xml` declares the alternates.
-- No stock photos of people are used. Every image is a labelled placeholder until approved.
-- Google Fonts is the only third-party request. Self-host **Bricolage Grotesque** and **Onest** if the clinic needs a fully offline build.
-- The footer keeps a small “Design base: 8B (MIT)” credit because this site reuses the visual language of the 8B Pipit template. See `CREDITS.md`.
+- This is a static site, not a CMS. A non-technical editor changes
+  `content.json`; `npm run sync` keeps the offline fallback current.
+- The enquiry form sends email only after `enquiryEndpoint` is configured.
+  Until then it deliberately hands off to WhatsApp.
+- The map appears only when `clinic.mapLink` holds a Google Maps embed URL.
+- Swahili uses one dictionary and a `?lang=sw` query parameter (persisted in
+  `localStorage`) rather than separate `/sw/` routes. `sitemap.xml` declares the
+  alternates.
+- No stock photos of people are used. The staff array stays empty until
+  consented or approved content exists.
+- Google Fonts is the only third-party request. Self-host **Bricolage
+  Grotesque** and **Onest** if the clinic needs a fully offline build.
+- The footer keeps a small “Design base: 8B (MIT)” credit because this site
+  reuses the visual language of the 8B Pipit template. See `CREDITS.md`.
 
 ---
 
@@ -384,7 +466,8 @@ Pages: Home, About, Services, Team, Contact, Appointment, Privacy, 404.
 
 Full licence texts and reuse notes are in **`CREDITS.md`**.
 
-- Design base: **Pipit** speech-therapist template by **8B** — MIT licence. No photographs from the template are used.
+- Design base: **Pipit** speech-therapist template by **8B** — MIT licence. No
+  photographs from the template are used.
 - Icons: Lucide-style line icons, recreated inline (ISC licence).
 - Typefaces: **Bricolage Grotesque** and **Onest** — SIL Open Font License.
 - Logo: supplied by Lupyana Polyclinic; not part of the template licence.
