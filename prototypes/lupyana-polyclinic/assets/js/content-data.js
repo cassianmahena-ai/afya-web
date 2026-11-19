@@ -857,7 +857,10 @@ window.__LUPYANA_CONTENT__ = {
       "department": {
         "en": "Diagnostics",
         "sw": "Uchunguzi"
-      }
+      },
+      "photos": [
+        "xray-machine"
+      ]
     },
     {
       "id": "service-6",
@@ -1083,6 +1086,22 @@ window.__LUPYANA_CONTENT__ = {
       "alt": {
         "en": "Laboratory: haematology analyser",
         "sw": "Maabara: mashine ya kupima damu"
+      },
+      "approved": true
+    },
+    {
+      "id": "xray-machine",
+      "src": "assets/img/clinic/xray-machine.jpg",
+      "thumb": "assets/img/clinic/xray-machine-sm.jpg",
+      "category": "diagnostics",
+      "gallery": false,
+      "caption": {
+        "en": "Illustrative X-ray machine",
+        "sw": "Mashine ya eksirei ya kielelezo"
+      },
+      "alt": {
+        "en": "An illustrative X-ray machine, not Lupyana Polyclinic equipment",
+        "sw": "Mashine ya eksirei ya kielelezo, si vifaa vya Lupyana Polyclinic"
       },
       "approved": true
     },

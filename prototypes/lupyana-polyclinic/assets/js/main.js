@@ -14,6 +14,7 @@
   let lang = "en";
   let toastTimer = null;
   let revealObserver = null;
+  let missionPaint = null;
 
   /* ------------------------------------------------------------------------
      Small helpers
@@ -378,6 +379,9 @@
           <button type="button" class="footer__cookie" data-cookie-open>Cookie settings</button>
         </div>
       </div>
+      <div class="container footer__wordmark" aria-hidden="true">${esc(
+        String(content.clinic.name || "lupyana").split(" ")[0].toLowerCase()
+      )}</div>
     </footer>`;
   }
 
@@ -409,6 +413,34 @@
     $$("[data-i18n-alt]").forEach((element) => {
       const value = t(element.dataset.i18nAlt);
       if (value != null) element.setAttribute("alt", value);
+    });
+    applyRolls();
+  }
+
+  /* Rolling labels: the real text lifts away on hover while an aria-hidden
+     copy rolls up from below. Rebuilt after every translation because
+     applyI18n() replaces the label's innerHTML. */
+  function applyRolls() {
+    if (reduceMotion) return;
+    const selectors = [
+      "[data-roll]",
+      ".nav__link",
+      ".footer__links a",
+      ".footer__legal a",
+      ".btn--ghost > span[data-i18n]",
+      ".btn--link > span[data-i18n]"
+    ];
+    const targets = new Set($$(selectors.join(", ")));
+    targets.forEach((element) => {
+      const existing = element.querySelector(".roll__in");
+      const source = existing ? existing.innerHTML : element.innerHTML;
+      if (!source || !source.trim()) return;
+      element.classList.add("roll");
+      element.innerHTML =
+        '<span class="roll__viewport">' +
+          '<span class="roll__in">' + source + "</span>" +
+          '<span class="roll__dup" aria-hidden="true">' + source + "</span>" +
+        "</span>";
     });
   }
 
@@ -613,7 +645,7 @@
 
   function renderGallery(target, photos, limit) {
     if (!target) return;
-    target.classList.add("gallery-grid");
+    if (!target.closest("[data-gallery-glide]")) target.classList.add("gallery-grid");
     target.innerHTML = photos
       .slice(0, limit)
       .map((photo) => {
@@ -741,6 +773,7 @@
     }
 
     renderServiceOptions();
+    setupGalleryGlide();
     refreshReveals();
   }
 
@@ -776,13 +809,51 @@
     const header = $(".site-header");
     if (!header) return;
     const isHome = document.body.dataset.page === "home";
-    const onScroll = () => {
-      const y = window.scrollY;
-      header.classList.toggle("is-scrolled", y > 8);
+    const darkZones = $$(".cta-band, .site-footer");
+    let lastY = window.scrollY || 0;
+    let ticking = false;
+
+    const update = () => {
+      const y = window.scrollY || 0;
+      const solid = y > 40;
+      header.classList.toggle("is-scrolled", solid);
+      header.toggleAttribute("data-solid", solid);
       if (isHome) header.classList.toggle("is-pinned", y > 140);
+
+      // Hide on scroll down, reveal on scroll up (Overstory-style), but keep
+      // visible near the top and while the mobile nav is open.
+      const navOpen = document.body.classList.contains("nav-open");
+      if (navOpen || y <= 80) {
+        header.removeAttribute("data-navhide");
+      } else if (y > lastY + 4 && y > 400) {
+        header.setAttribute("data-navhide", "");
+      } else if (y < lastY - 4) {
+        header.removeAttribute("data-navhide");
+      }
+
+      // The header is sticky/overlayed, so the dark band passing under its
+      // bottom edge decides its tone. This keeps contrast correct on CTA bands
+      // and the footer in both light and dark themes.
+      const line = header.getBoundingClientRect().bottom;
+      const overDark = darkZones.some((zone) => {
+        const rect = zone.getBoundingClientRect();
+        return rect.top <= line && rect.bottom > line;
+      });
+      header.setAttribute("data-tone", overDark ? "dark" : "light");
+
+      lastY = y;
+      ticking = false;
     };
-    onScroll();
+
+    const onScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(update);
+    };
+
+    update();
     window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
   }
 
   function setupNav() {
@@ -795,6 +866,7 @@
       nav.hidden = false;
       document.body.classList.add("nav-open");
       toggle.setAttribute("aria-expanded", "true");
+      $(".site-header")?.removeAttribute("data-navhide");
       close.focus();
     };
 
@@ -902,6 +974,7 @@
     applyLangButtons();
     applyI18n();
     applyBindings();
+    setupMission();
     renderLists();
     setupMap();
     updateMeta();
@@ -1284,6 +1357,218 @@
   }
 
   /* ------------------------------------------------------------------------
+     Magnetic primary actions
+     Fine pointers only, three elements only. Uses the CSS `translate` property
+     so existing hover transforms on the buttons are left alone.
+     ------------------------------------------------------------------------ */
+  function setupMagnetic() {
+    if (reduceMotion || !matchMedia("(hover: hover) and (pointer: fine)").matches) return;
+    const items = $$(".hero__actions .btn--primary, .header__wa, .wa-float").map((element) => ({
+      element,
+      x: 0,
+      y: 0
+    }));
+    if (!items.length) return;
+
+    let pointerX = -1000;
+    let pointerY = -1000;
+    let raf = 0;
+
+    const tick = () => {
+      raf = 0;
+      let moving = false;
+      items.forEach((item) => {
+        const rect = item.element.getBoundingClientRect();
+        const cx = rect.left + rect.width / 2;
+        const cy = rect.top + rect.height / 2;
+        const reach = Math.max(rect.width, rect.height) * 0.9 + 30;
+        const ox = pointerX - cx;
+        const oy = pointerY - cy;
+        const inside = Math.abs(ox) < reach && Math.abs(oy) < reach;
+        const tx = inside ? ox * 0.42 : 0;
+        const ty = inside ? oy * 0.42 : 0;
+        item.x += (tx - item.x) * 0.12;
+        item.y += (ty - item.y) * 0.12;
+        if (Math.abs(tx - item.x) > 0.1 || Math.abs(ty - item.y) > 0.1) moving = true;
+        item.element.style.translate = item.x.toFixed(2) + "px " + item.y.toFixed(2) + "px";
+      });
+      if (moving) raf = requestAnimationFrame(tick);
+    };
+
+    window.addEventListener(
+      "pointermove",
+      (event) => {
+        if (event.pointerType && event.pointerType !== "mouse") return;
+        pointerX = event.clientX;
+        pointerY = event.clientY;
+        if (!raf) raf = requestAnimationFrame(tick);
+      },
+      { passive: true }
+    );
+  }
+
+  /* ------------------------------------------------------------------------
+     Letter-lit mission statement
+     Scroll feeds a 0-1 progress: letters light up one by one and a thin rule
+     fills underneath. Rebuilt after a language switch because applyBindings()
+     replaces the paragraph's innerHTML.
+     ------------------------------------------------------------------------ */
+  function setupGalleryGlide() {
+    const track = $("[data-gallery-glide]");
+    const row = $("#homeGallery");
+    const stage = track ? $(".gallery-glide__stage", track) : null;
+    if (!track || !row || !stage) return;
+
+    const reset = (staticMode) => {
+      track.classList.remove("is-gliding", "is-static");
+      track.classList.add(staticMode ? "is-static" : "");
+      track.style.removeProperty("--glide-travel");
+      track.style.removeProperty("--glide-stage-h");
+      track.style.setProperty("--glide-offset", "0px");
+    };
+
+    const apply = () => {
+      if (reduceMotion) {
+        reset(true);
+        return;
+      }
+      if (track.closest("[hidden]") || !row.children.length) {
+        reset(false);
+        return;
+      }
+
+      // Mobile/touch: prefer native horizontal scroll over scroll-jacking.
+      const canGlide = window.matchMedia("(min-width: 901px) and (hover: hover) and (pointer: fine)").matches;
+      if (!canGlide) {
+        reset(true);
+        return;
+      }
+
+      const stageW = stage.clientWidth;
+      const travel = Math.max(0, row.scrollWidth - stageW);
+      if (travel < 24) {
+        reset(false);
+        track.classList.add("is-static");
+        return;
+      }
+
+      const vh = window.innerHeight || 800;
+      const stageH = Math.min(Math.max(stage.clientHeight || vh * 0.62, 320), vh * 0.78);
+      track.style.setProperty("--glide-travel", `${Math.round(travel)}px`);
+      track.style.setProperty("--glide-stage-h", `${Math.round(stageH)}px`);
+      track.classList.add("is-gliding");
+      track.classList.remove("is-static");
+
+      const stickyTop = parseFloat(getComputedStyle(stage).top) || 0;
+      const scrollable = Math.max(1, track.offsetHeight - stageH);
+      const rect = track.getBoundingClientRect();
+      const progress = Math.min(1, Math.max(0, (stickyTop - rect.top) / scrollable));
+      // Glide slowly from left to right as you scroll down.
+      const offset = (progress - 1) * travel;
+      track.style.setProperty("--glide-offset", `${offset.toFixed(2)}px`);
+    };
+
+    apply();
+
+    if (!track.dataset.glideBound) {
+      let ticking = false;
+      const onScroll = () => {
+        if (!track.classList.contains("is-gliding")) return;
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(() => {
+          ticking = false;
+          const stageH = parseFloat(track.style.getPropertyValue("--glide-stage-h")) || stage.clientHeight || 1;
+          const stickyTop = parseFloat(getComputedStyle(stage).top) || 0;
+          const scrollable = Math.max(1, track.offsetHeight - stageH);
+          const rect = track.getBoundingClientRect();
+          const progress = Math.min(1, Math.max(0, (stickyTop - rect.top) / scrollable));
+          const travel = parseFloat(track.style.getPropertyValue("--glide-travel")) || 0;
+          const offset = (progress - 1) * travel;
+          track.style.setProperty("--glide-offset", `${offset.toFixed(2)}px`);
+        });
+      };
+      const onResize = () => {
+        apply();
+      };
+      window.addEventListener("scroll", onScroll, { passive: true });
+      window.addEventListener("resize", onResize);
+      track.dataset.glideBound = "1";
+      track._glideApply = apply;
+    } else if (typeof track._glideApply === "function") {
+      track._glideApply();
+    }
+  }
+
+  function setupMission() {
+    const target = $("[data-lit-mission]");
+    if (!target) return;
+
+    const panel = target.closest(".panel");
+    let bar = panel ? panel.querySelector(".mission-progress") : null;
+    if (panel && !bar) {
+      bar = document.createElement("span");
+      bar.className = "mission-progress";
+      bar.setAttribute("aria-hidden", "true");
+      bar.innerHTML = "<i></i>";
+      panel.appendChild(bar);
+    }
+
+    if (reduceMotion) {
+      if (bar) bar.style.setProperty("--p", "1");
+      return;
+    }
+
+    if (!target.querySelector(".lit-l")) {
+      const text = target.textContent.replace(/\s+/g, " ").trim();
+      if (text) {
+        let index = 0;
+        const words = text.split(" ").map((word) => {
+          const letters = [...word]
+            .map((char) => '<span class="lit-l" aria-hidden="true" style="--i:' + index++ + '">' + esc(char) + "</span>")
+            .join("");
+          return '<span class="lit-w">' + letters + "</span>";
+        });
+        target.innerHTML =
+          '<span class="lit-sr">' + esc(text) + "</span>" +
+          '<span class="lit-visual" aria-hidden="true">' + words.join(" ") + "</span>";
+      }
+    }
+
+    const letters = $$(".lit-l", target);
+    let lastCount = -1;
+
+    const paint = () => {
+      if (!letters.length) return;
+      const rect = target.getBoundingClientRect();
+      const vh = window.innerHeight;
+      const progress = Math.min(1, Math.max(0, (vh * 0.86 - rect.top) / (vh * 0.5)));
+      const count = Math.ceil(progress * letters.length);
+      if (count !== lastCount) {
+        letters.forEach((letter, i) => letter.classList.toggle("is-lit", i < count));
+        lastCount = count;
+      }
+      if (bar) bar.style.setProperty("--p", progress.toFixed(3));
+    };
+
+    if (!missionPaint) {
+      let queued = false;
+      const queue = () => {
+        if (queued) return;
+        queued = true;
+        requestAnimationFrame(() => {
+          queued = false;
+          if (missionPaint) missionPaint();
+        });
+      };
+      window.addEventListener("scroll", queue, { passive: true });
+      window.addEventListener("resize", queue);
+    }
+    missionPaint = paint;
+    paint();
+  }
+
+  /* ------------------------------------------------------------------------
      Init
      ------------------------------------------------------------------------ */
   async function init() {
@@ -1318,6 +1603,8 @@
     setupLanguage();
     setupNav();
     setupHeaderScroll();
+    setupMission();
+    setupMagnetic();
     setupStaffDialog();
     setupForm();
     setupPlaceholderLinks();

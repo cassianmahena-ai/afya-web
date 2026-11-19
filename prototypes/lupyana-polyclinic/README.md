@@ -129,6 +129,35 @@ they render at an identical size at every breakpoint. Both:
 - print at full opacity even if they were never scrolled into view;
 - drop the motion under `prefers-reduced-motion: reduce`.
 
+The X-ray service card uses `assets/img/clinic/xray-machine.jpg`, a public-domain
+illustrative photo of an X-ray unit. It is not presented as Lupyana equipment,
+is captioned as illustrative, and stays out of the facility gallery via
+`gallery: false`. See `CREDITS.md` for the source.
+
+### Interface motion
+
+Five small flourishes sit on top of the existing vanilla JS/CSS and are all
+disabled or simplified under `prefers-reduced-motion: reduce`:
+
+- **Rolling labels** — nav links, footer links and the Call button swap their
+  label for an `aria-hidden` copy that rolls up on hover/keyboard focus.
+  `applyRolls()` rebuilds the wrappers after every translation because the
+  `data-i18n` pass replaces the label's HTML.
+- **Magnetic primary action** — the hero appointment button, header WhatsApp
+  button and floating WhatsApp button ease toward the pointer on fine-pointer
+  devices. The movement uses the CSS `translate` property so the existing hover
+  `transform` is preserved.
+- **Header tone** — `#siteHeader` owns the sticky positioning, and
+  `setupHeaderScroll()` switches `.site-header` to `data-tone="dark"` when a CTA
+  band or the footer passes under it. The dark rules also override the dark
+  theme's ghost button and icon-button surfaces.
+- **Footer wordmark** — the first word of `clinic.name` is repeated as a large,
+  decorative overflow-hidden wordmark at the foot of every page.
+- **Letter-lit mission** — the About mission paragraph is split into per-letter
+  spans. Scrolling lights the letters in sequence and fills a thin rule below
+  the panel; the original sentence stays available to screen readers, and
+  `setupMission()` rebuilds the split after a language switch.
+
 ### Contact details
 
 `clinic.email` is currently filled in, so email rows are shown on the site. If
