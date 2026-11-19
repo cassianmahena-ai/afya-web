@@ -150,12 +150,30 @@
 /* --------------------------------------------------------------------------
    Surfaces that were hard-coded to white in styles.css
    -------------------------------------------------------------------------- */
+/* Overlay header: keep the sticky container transparent; style the inner pill. */
 [data-theme="dark"] .site-header {
-  background: rgba(7, 19, 18, 0.92);
+  background: transparent;
 }
 
-[data-theme="dark"] .site-header.is-scrolled {
-  box-shadow: 0 12px 30px -24px rgba(0, 0, 0, 0.9);
+[data-theme="dark"] .site-header .header__inner {
+  background: rgba(13, 31, 30, 0.42);
+  border-color: rgba(92, 201, 189, 0.18);
+  box-shadow: 0 10px 30px -24px rgba(0, 0, 0, 0.5);
+  color: var(--c-text);
+}
+
+[data-theme="dark"] .site-header[data-solid] .header__inner,
+[data-theme="dark"] .site-header.is-scrolled .header__inner {
+  background: rgba(7, 19, 18, 0.78);
+  border-color: rgba(92, 201, 189, 0.22);
+  box-shadow: 0 12px 40px -18px rgba(0, 0, 0, 0.7);
+}
+
+[data-theme="dark"] body[data-page="home"] .site-header:not([data-solid]):not(.nav-open) .header__inner {
+  background: transparent;
+  border-color: transparent;
+  box-shadow: none;
+  color: #f6f8f0;
 }
 
 [data-theme="dark"] .mobile-bar {

@@ -51,12 +51,18 @@ SOFTWARE.
 
 ## Photography
 
-- **No photographs are included.** Every image slot is a labelled CSS
-  placeholder showing its aspect ratio (16:9, 4:3, 3:2 or 1:1).
-- When the clinic supplies photography, it must own the images or hold a written
-  licence, and staff/patient photos need written consent before `approved` is
-  set to `true` in `content.json`.
+- Clinic facility photos live in `assets/img/clinic/` and are published only
+  after the clinic approves them. Staff and patient photos additionally need
+  written consent before `approved` is set to `true` in `content.json`.
 - The template's Unsplash-licensed photos were **not** copied into this project.
+- The X-ray service card uses one illustrative, non-clinic image:
+  - **“Phillips x-ray machine, Virginia Mason, Lynnwood, Washington, USA”** by
+    **Wonderlane** — <https://www.flickr.com/photos/71401718@N00/23007370954>
+  - Licence: **Public domain / CC0 1.0** as marked by Flickr and Openverse.
+  - Stored as `assets/img/clinic/xray-machine.jpg` and
+    `assets/img/clinic/xray-machine-sm.jpg`. It is explicitly captioned as
+    illustrative, is not presented as Lupyana Polyclinic equipment, and is
+    excluded from the facility gallery with `gallery: false`.
 
 ## Icons
 
